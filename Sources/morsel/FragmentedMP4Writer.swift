@@ -5,6 +5,10 @@ public enum FragmentedMP4WriterError: Error {
     case directoryDoesNotExist
 }
 
+protocol FragmentedMP4WriterProtocol {
+    
+}
+
 public class FragmentedMP4Writer {
     
     var segmenter: StreamSegmenter?

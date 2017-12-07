@@ -83,19 +83,3 @@ public struct NALUStreamIterator: Sequence, IteratorProtocol {
     }
     
 }
-
-func fourCharCode(from str: String) -> FourCharCode {
-    var string = str
-    if string.unicodeScalars.count < 4 {
-        string = str + "    "
-    }
-    
-    //string = string.substringToIndex(string.startIndex.advancedBy(4))
-    
-    var res:FourCharCode = 0
-    for unicodeScalar in string.unicodeScalars {
-        res = (res << 8) + (FourCharCode(unicodeScalar) & 255)
-    }
-    
-    return res
-}

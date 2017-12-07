@@ -52,12 +52,10 @@ public struct VideoSample: Sample {
     
     var format: MediaFormat // CMFormatDescription
     
-    var size: UInt32 {
-        return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize })
-    }
+    var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
     
-    var dependsOnOthers: Bool = false
-    var isSync: Bool = false
+    var dependsOnOthers: Bool            = false
+    var isSync: Bool                     = false
     var earlierDisplayTimesAllowed: Bool = false
     
 //    init(sampleBuffer: CMSampleBuffer) {
