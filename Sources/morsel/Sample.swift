@@ -128,30 +128,6 @@ enum AudioObjectType: UInt8 {
     case TWIN_VQ      = 7
     case CELP         = 8
     case HVXC         = 9
-    
-    init(objectID: MPEG4ObjectID) {
-        switch objectID {
-        case .AAC_LC:
-            self = .AAC_LC
-        case .AAC_LTP:
-            self = .AAC_LTP
-        case .AAC_SBR:
-            self = .AAC_SBR
-        case .AAC_SSR:
-            self = .AAC_SSR
-        case .aac_Main:
-            self = .AAC_Main
-        case .aac_Scalable:
-            self = .AAC_Scalable
-        case .CELP:
-            self = .CELP
-        case .HVXC:
-            self = .HVXC
-        case .twinVQ:
-            self = .TWIN_VQ
-        }
-    }
-    
 }
 
 enum SamplingFrequency: UInt8 {

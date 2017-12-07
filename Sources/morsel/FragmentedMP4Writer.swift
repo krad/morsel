@@ -25,7 +25,11 @@ public class FragmentedMP4Writer {
         /// Verify we have a directory to write to
         var isDir: ObjCBool = false
         let pathExists      = FileManager.default.fileExists(atPath: outputDir.path, isDirectory: &isDir)
-        if !isDir.boolValue { throw FragmentedMP4WriterError.fileNotDirectory }
+        #if os(Linux)
+            if !isDir { throw FragmentedMP4WriterError.fileNotDirectory }
+        #else
+            if !isDir.boolValue { throw FragmentedMP4WriterError.fileNotDirectory }
+        #endif
         if !pathExists      { throw FragmentedMP4WriterError.directoryDoesNotExist }
         
         self.playerListWriter = try HLSPlaylistWriter(outputDir.appendingPathComponent("out.m3u8"),
