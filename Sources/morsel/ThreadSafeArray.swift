@@ -1,4 +1,5 @@
 import Foundation
+import Dispatch
 
 internal class ThreadSafeArray<T>: Collection {
     
