@@ -1,6 +1,11 @@
 import Foundation
 import CoreMedia
 
+public enum SampleType: UInt8 {
+    case video    = 0x75 // v
+    case audio    = 0x61 // a
+}
+
 protocol Sample {
     var type: SampleType { get }
     var data: [UInt8] { get }
@@ -52,20 +57,20 @@ public struct VideoSample: Sample {
     var isSync: Bool = false
     var earlierDisplayTimesAllowed: Bool = false
     
-    init(sampleBuffer: CMSampleBuffer) {
-        self.type       = .video
-        self.format     = CMSampleBufferGetFormatDescription(sampleBuffer)!
-        
-        self.isSync                     = !sampleBuffer.notSync
-        self.dependsOnOthers            = sampleBuffer.dependsOnOthers
-        self.earlierDisplayTimesAllowed = sampleBuffer.earlierPTS
-        
-        if let bytes = bytes(from: sampleBuffer) {
-            for nalu in NALUStreamIterator(streamBytes: bytes, currentIdx: 0) {
-                self.nalus.append(nalu)
-            }
-        }
-    }
+//    init(sampleBuffer: CMSampleBuffer) {
+//        self.type       = .video
+//        self.format     = CMSampleBufferGetFormatDescription(sampleBuffer)!
+//        
+//        self.isSync                     = !sampleBuffer.notSync
+//        self.dependsOnOthers            = sampleBuffer.dependsOnOthers
+//        self.earlierDisplayTimesAllowed = sampleBuffer.earlierPTS
+//        
+//        if let bytes = bytes(from: sampleBuffer) {
+//            for nalu in NALUStreamIterator(streamBytes: bytes, currentIdx: 0) {
+//                self.nalus.append(nalu)
+//            }
+//        }
+//    }
     
 }
 
@@ -90,24 +95,24 @@ public struct AudioSample: Sample {
     let channels: UInt32
     let sampleRate: Double
     
-    init(sampleBuffer: CMSampleBuffer) {        
-        /// Set the type and data
-        self.type       = .audio
-        self.data       = bytes(from: sampleBuffer)!
-        
-        /// Get the stream description
-        let asbd        = getStreamDescription(from: sampleBuffer)!
-        
-        self.format     = asbd
-        self.timescale  = UInt32(asbd.mSampleRate)
-        
-        /// Set the sample size
-        self.sampleSize = 16
-        
-        /// Set the channels and sample rate
-        self.channels   = asbd.mChannelsPerFrame
-        self.sampleRate = asbd.mSampleRate
-    }
+//    init(sampleBuffer: CMSampleBuffer) {        
+//        /// Set the type and data
+//        self.type       = .audio
+//        self.data       = bytes(from: sampleBuffer)!
+//        
+//        /// Get the stream description
+//        let asbd        = getStreamDescription(from: sampleBuffer)!
+//        
+//        self.format     = asbd
+//        self.timescale  = UInt32(asbd.mSampleRate)
+//        
+//        /// Set the sample size
+//        self.sampleSize = 16
+//        
+//        /// Set the channels and sample rate
+//        self.channels   = asbd.mChannelsPerFrame
+//        self.sampleRate = asbd.mSampleRate
+//    }
     
 
 }

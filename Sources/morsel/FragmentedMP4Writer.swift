@@ -9,8 +9,8 @@ public enum FragmentedMP4WriterError: Error {
 public class FragmentedMP4Writer {
     
     var segmenter: StreamSegmenter?
-    var videoInput: FragmentedVideoInput?
-    var audioInput: FragmentedAudioInput?
+//    var videoInput: FragmentedVideoInput?
+//    var audioInput: FragmentedAudioInput?
     var currentSegment: FragmentedMP4Segment?
     fileprivate var playerListWriter: HLSPlaylistWriter
     
@@ -34,21 +34,21 @@ public class FragmentedMP4Writer {
                                               streamType: streamType,
                                               delegate: self)
         
-        self.videoInput = try FragmentedVideoInput() { sample in
-            self.segmenter?.append(sample)
-        }
-        
-        self.audioInput = try FragmentedAudioInput() { sample in
-            self.segmenter?.append(sample)
-        }
+//        self.videoInput = try FragmentedVideoInput() { sample in
+//            self.segmenter?.append(sample)
+//        }
+//
+//        self.audioInput = try FragmentedAudioInput() { sample in
+//            self.segmenter?.append(sample)
+//        }
     }
     
-    public func got(_ sample: CMSampleBuffer, type: SampleType) {
-        switch type {
-        case .video: self.videoInput?.append(sample)
-        case .audio: self.audioInput?.append(sample)
-        }
-    }
+//    public func got(_ sample: CMSampleBuffer, type: SampleType) {
+//        switch type {
+//        case .video: self.videoInput?.append(sample)
+//        case .audio: self.audioInput?.append(sample)
+//        }
+//    }
     
     public func end() {
         self.playerListWriter.end()

@@ -1,4 +1,4 @@
-import CoreMedia
+//import CoreMedia
 
 class FragmentedAudioInput {
     
@@ -9,16 +9,16 @@ class FragmentedAudioInput {
         self.onChunk = onChunk
     }
     
-    func append(_ sample: CMSampleBuffer) {
-        let duration         = CMSampleBufferGetDuration(sample)
-        
-        var audioSample      = AudioSample(sampleBuffer: sample)
-        audioSample.duration = duration.value
-        audioSample.decode   = Double(decodeCount)
-
-        decodeCount          += duration.value
-        
-        self.onChunk(audioSample)
-    }
+//    func append(_ sample: CMSampleBuffer) {
+//        let duration         = CMSampleBufferGetDuration(sample)
+//
+//        var audioSample      = AudioSample(sampleBuffer: sample)
+//        audioSample.duration = duration.value
+//        audioSample.decode   = Double(decodeCount)
+//
+//        decodeCount          += duration.value
+//
+//        self.onChunk(audioSample)
+//    }
     
 }

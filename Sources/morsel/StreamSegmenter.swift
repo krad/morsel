@@ -166,22 +166,14 @@ class StreamSegmenter {
     private func vendAudioSamples(upTo duration: Double) -> [Sample] {
         var results: [Sample] = []
         
+        var bufferDuration: Double = 0.0
         for sample in self.audioSamples {
+            bufferDuration += sample.durationInSeconds
             results.append(sample)
-            if results.count > 50 {
+            if bufferDuration >= duration {
                 break
             }
         }
-        
-//        var bufferDuration: Double = 0.0
-//        for sample in self.audioSamples {
-//            bufferDuration += sample.durationInSeconds
-//            results.append(sample)
-//            if bufferDuration >= duration {
-//                break
-//            }
-//        }
-
         self.audioSamples.removeFirst(n: results.count)
         return results
     }
@@ -199,10 +191,10 @@ class StreamSegmenter {
     }
 
     private func updateMOOVConfig(with sample: Sample) {
-        switch sample.type {
-        case .audio: self.moovConfig.audioSettings = MOOVAudioSettings(sample)
-        case .video: self.moovConfig.videoSettings = MOOVVideoSettings(sample)
-        }
+//        switch sample.type {
+//        case .audio: self.moovConfig.audioSettings = MOOVAudioSettings(sample)
+//        case .video: self.moovConfig.videoSettings = MOOVVideoSettings(sample)
+//        }
     }
     
 }
