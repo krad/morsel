@@ -45,10 +45,10 @@ public struct VideoDimensions {
 
 public struct VideoSample: Sample {
     
-    var type: SampleType
-    var nalus: [NALU] = []
+    public var type: SampleType
+    public var nalus: [NALU] = []
     
-    var data: [UInt8] {
+    public var data: [UInt8] {
         var results: [UInt8] = []
         for nalu in nalus {
             results.append(contentsOf: nalu.data)
@@ -56,16 +56,16 @@ public struct VideoSample: Sample {
         return results
     }
     
-    var duration: Int64          = 0
-    var durationSeconds: Double  = 0
-    var decode: Double           = 0
-    var timescale: UInt32        = 0
+    public var duration: Int64          = 0
+    public var durationSeconds: Double  = 0
+    public var decode: Double           = 0
+    public var timescale: UInt32        = 0
     
-    var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
+    public var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
     
-    var dependsOnOthers: Bool            = false
-    var isSync: Bool                     = false
-    var earlierDisplayTimesAllowed: Bool = false
+    public var dependsOnOthers: Bool            = false
+    public var isSync: Bool                     = false
+    public var earlierDisplayTimesAllowed: Bool = false
     
     public init(bytes: [UInt8]) {
         self.type                       = .video
