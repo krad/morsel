@@ -36,6 +36,7 @@ class VideoSampleTests: XCTestCase {
         XCTAssertEqual(sample.dependsOnOthers, false)
         XCTAssertEqual(sample.duration, 2400)
         XCTAssertEqual(sample.timescale, 30000)
+        XCTAssertEqual(sample.durationSeconds, 0.08)
         
         XCTAssertEqual(2, sample.nalus.count)
         XCTAssertEqual(NALUType.SEI, sample.nalus.first!.type)

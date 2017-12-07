@@ -64,6 +64,7 @@ public struct VideoSample: Sample {
         self.earlierDisplayTimesAllowed = bytes[3].toBool()
         self.duration                   = Int64(bytes: Array(bytes[4..<12]))!
         self.timescale                  = UInt32(bytes: Array(bytes[12..<16]))!
+        self.durationSeconds            = Double(duration) / Double(timescale)
         
         let videoBytes = Array(bytes[16..<bytes.count])
         for nalu in NALUStreamIterator(streamBytes: videoBytes, currentIdx: 0) {

@@ -5,16 +5,13 @@ public enum FragmentedMP4WriterError: Error {
     case directoryDoesNotExist
 }
 
-protocol FragmentedMP4WriterProtocol {
-    func append(sample: Sample, type: SampleType)
-}
-
 public class FragmentedMP4Writer {
     
     var segmenter: StreamSegmenter?
-
     var currentSegment: FragmentedMP4Segment?
     fileprivate var playerListWriter: HLSPlaylistWriter
+    
+    var videoDecodeCount: Int64 = 0
     
     public init(_ outputDir: URL,
                 targetDuration: Double = 6,
@@ -24,12 +21,12 @@ public class FragmentedMP4Writer {
         /// Verify we have a directory to write to
         var isDir: ObjCBool = false
         let pathExists      = FileManager.default.fileExists(atPath: outputDir.path, isDirectory: &isDir)
+        if !pathExists { throw FragmentedMP4WriterError.directoryDoesNotExist }
         #if os(Linux)
             if !isDir { throw FragmentedMP4WriterError.fileNotDirectory }
         #else
             if !isDir.boolValue { throw FragmentedMP4WriterError.fileNotDirectory }
         #endif
-        if !pathExists      { throw FragmentedMP4WriterError.directoryDoesNotExist }
         
         self.playerListWriter = try HLSPlaylistWriter(outputDir.appendingPathComponent("out.m3u8"),
                                                       playlistType: playlistType,
@@ -41,12 +38,12 @@ public class FragmentedMP4Writer {
                                               delegate: self)        
     }
     
-//    public func got(_ sample: CMSampleBuffer, type: SampleType) {
-//        switch type {
-//        case .video: self.videoInput?.append(sample)
-//        case .audio: self.audioInput?.append(sample)
-//        }
-//    }
+    func append(bytes: [UInt8]) {
+        var videoSample    = VideoSample(bytes: bytes)
+        videoSample.decode = Double(self.videoDecodeCount)
+        self.segmenter?.append(videoSample)
+        self.videoDecodeCount += videoSample.duration
+    }
     
     public func end() {
         self.playerListWriter.end()
