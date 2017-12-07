@@ -17,7 +17,7 @@ struct MDHD: BinarySizedEncodable {
     var language: UInt16 = 0x55c4
     var quality: UInt16 = 0
     
-    static func from(_ config: MOOVVideoSettings) -> MDHD {
+    static func from(_ config: VideoSettings) -> MDHD {
         var mdhd = MDHD()
         mdhd.timeScale = config.timescale
         return mdhd

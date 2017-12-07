@@ -10,7 +10,7 @@ struct STSD: BinarySizedEncodable {
     var avc1: [AVC1]?
     var mp4a: [MP4A]?
     
-    static func from(_ config: MOOVVideoSettings) -> STSD {
+    static func from(_ config: VideoSettings) -> STSD {
         var stsd = STSD()
         stsd.avc1 = [AVC1.from(config)]
         stsd.mp4a = nil

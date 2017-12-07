@@ -33,6 +33,16 @@ extension CMFormatDescription: MediaFormat { }
 extension AudioStreamBasicDescription: MediaFormat { }
 #endif
 
+public struct VideoDimensions {
+    var width: UInt32
+    var height: UInt32
+    
+    public init(from data: [UInt8]) {
+        self.width  = UInt32(bytes: Array(data[1..<5]))!
+        self.height = UInt32(bytes: Array(data[5..<data.count]))!
+    }
+}
+
 public struct VideoSample: Sample {
     
     var type: SampleType
@@ -57,7 +67,7 @@ public struct VideoSample: Sample {
     var isSync: Bool                     = false
     var earlierDisplayTimesAllowed: Bool = false
     
-    init(bytes: [UInt8]) {
+    public init(bytes: [UInt8]) {
         self.type                       = .video
         self.isSync                     = bytes[1].toBool()
         self.dependsOnOthers            = bytes[2].toBool()
@@ -71,21 +81,6 @@ public struct VideoSample: Sample {
             self.nalus.append(nalu)
         }
     }
-    
-//    init(sampleBuffer: CMSampleBuffer) {
-//        self.type       = .video
-//        self.format     = CMSampleBufferGetFormatDescription(sampleBuffer)!
-//        
-//        self.isSync                     = !sampleBuffer.notSync
-//        self.dependsOnOthers            = sampleBuffer.dependsOnOthers
-//        self.earlierDisplayTimesAllowed = sampleBuffer.earlierPTS
-//        
-//        if let bytes = bytes(from: sampleBuffer) {
-//            for nalu in NALUStreamIterator(streamBytes: bytes, currentIdx: 0) {
-//                self.nalus.append(nalu)
-//            }
-//        }
-//    }
     
 }
 

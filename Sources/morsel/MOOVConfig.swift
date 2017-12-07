@@ -1,36 +1,26 @@
 struct MOOVConfig {
     
-    var videoSettings: MOOVVideoSettings?
+    var videoSettings: VideoSettings?
     var audioSettings: MOOVAudioSettings?
     
     init() { }
     
 }
 
-struct MOOVVideoSettings {
-    
+struct VideoSettings {
     var sps: [UInt8]
     var pps: [UInt8]
     var width: UInt32
     var height: UInt32
     var timescale: UInt32 = 30000
     
-//    init(_ sample: Sample) {
-//
-//        let format     = sample.format as! CMFormatDescription
-//        self.timescale = sample.timescale
-//
-//        /// This is only setup this way for tests
-//        /// If we get a format description with no param set we're hosed either way
-//        let paramSet = getVideoFormatDescriptionData(format)
-//        self.sps = paramSet.first == nil ? [] : paramSet.first!
-//        self.pps = paramSet.last == nil ? [] : paramSet.last!
-//
-//        let dimensions = CMVideoFormatDescriptionGetDimensions(format)
-//        self.width     = UInt32(dimensions.width)
-//        self.height    = UInt32(dimensions.height)
-//    }
-    
+    init(params: [[UInt8]], dimensions: VideoDimensions, timescale: UInt32) {
+        self.sps        = params.first == nil ? [] : params.first!
+        self.pps        = params.last  == nil ? [] : params.last!
+        self.width      = dimensions.width
+        self.height     = dimensions.height
+        self.timescale  = timescale
+    }
 }
 
 struct MOOVAudioSettings {

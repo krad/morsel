@@ -6,7 +6,7 @@ struct MDIA: BinarySizedEncodable {
     var handlerReferenceAtom: [HDLR] = [HDLR()]
     var mediaInformationAtom: [MINF] = [MINF()]
     
-    static func from(_ config: MOOVVideoSettings) -> MDIA {
+    static func from(_ config: VideoSettings) -> MDIA {
         var mdia                  = MDIA()
         mdia.mediaHeaderAtom      = [MDHD.from(config)]
         mdia.handlerReferenceAtom = [HDLR.with(sampleType: .video)]

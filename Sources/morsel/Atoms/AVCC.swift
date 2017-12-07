@@ -22,7 +22,7 @@ struct AVCC: BinarySizedEncodable {
     var ppsLength: UInt16 = 4
     var pps: [PPS] = [PPS(data: [0x28, 0xee, 0x1f, 0x20])]
     
-    static func from(_ config: MOOVVideoSettings) -> AVCC {
+    static func from(_ config: VideoSettings) -> AVCC {
         var avcc = AVCC()
         avcc.sps       = [SPS(data: config.sps)]
         avcc.spsCount  = 1

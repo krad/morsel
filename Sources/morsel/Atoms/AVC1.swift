@@ -32,7 +32,7 @@ struct AVC1: BinarySizedEncodable {
     var colr: [COLR] = [COLR()]
     var pasp: [PASP] = [PASP()]
     
-    static func from(_ config: MOOVVideoSettings) -> AVC1 {
+    static func from(_ config: VideoSettings) -> AVC1 {
         var avc1    = AVC1()
         avc1.width  = UInt16(config.width)
         avc1.height = UInt16(config.height)

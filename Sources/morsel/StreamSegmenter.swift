@@ -46,12 +46,15 @@ class StreamSegmenter {
     }
     
     internal var currentSegmentDuration: Double = 0.0
-    
 
-    private var segmenterQ = DispatchQueue(label: "stream.segmenter.Q")
-    internal var moovConfig = MOOVConfig()
+    private var segmenterQ = DispatchQueue(label: "stream.segmenter.q")
     private var delegate: StreamSegmenterDelegate?
     private var wroteInitSegment: Bool = false
+
+    internal var moovConfig = MOOVConfig()
+    internal var videoSettings: VideoSettings? {
+        didSet { self.moovConfig.videoSettings = videoSettings }
+    }
 
     var currentSegmentName: String {
         return "fileSeq\(self.currentSegment).mp4"
@@ -189,7 +192,7 @@ class StreamSegmenter {
         case .video: self.videoSamples.append(sample)
         }
     }
-
+    
     private func updateMOOVConfig(with sample: Sample) {
 //        switch sample.type {
 //        case .audio: self.moovConfig.audioSettings = MOOVAudioSettings(sample)

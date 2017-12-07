@@ -16,7 +16,7 @@ struct STBL: BinarySizedEncodable {
 //    var sampleToGroupAtom = SBGP()
 //    var sampleDependenyFlagAtom = SDTP()
     
-    static func from(config: MOOVVideoSettings) -> STBL {
+    static func from(config: VideoSettings) -> STBL {
         var stbl = STBL()
         stbl.sampleDescriptionAtom = [STSD.from(config)]
         return stbl

@@ -7,7 +7,7 @@ struct MINF: BinarySizedEncodable {
     var dataInformationAtom: [DINF] = [DINF()]
     var sampleTableAtom: [STBL] = [STBL()]
     
-    static func from(_ config: MOOVVideoSettings) -> MINF {
+    static func from(_ config: VideoSettings) -> MINF {
         var minf = MINF()
         minf.videoMediaInformationAtom = [VMHD()]
         minf.soundMediaInformationAtom = nil

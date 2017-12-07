@@ -12,7 +12,7 @@ struct TREX: BinarySizedEncodable {
     
     var sampleFlags: SampleFlags = [.sampleIsDependedOn]
     
-    static func from(_ config: MOOVVideoSettings) -> TREX {
+    static func from(_ config: VideoSettings) -> TREX {
         var trex     = TREX()
         trex.trackID = 1
         return trex
