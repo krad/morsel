@@ -1,4 +1,5 @@
 import Foundation
+import Dispatch
 
 public struct StreamType: OptionSet {
     public var rawValue: UInt8
