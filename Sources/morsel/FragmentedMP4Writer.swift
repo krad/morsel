@@ -38,11 +38,11 @@ public class FragmentedMP4Writer {
                                               delegate: self)        
     }
     
-    func configure(settings: VideoSettings) {
+    public func configure(settings: VideoSettings) {
         self.segmenter?.videoSettings = settings
     }
     
-    func append(bytes: [UInt8]) {
+    public func append(bytes: [UInt8]) {
         var videoSample    = VideoSample(bytes: bytes)
         videoSample.decode = Double(self.videoDecodeCount)
         self.segmenter?.append(videoSample)
