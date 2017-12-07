@@ -1,5 +1,3 @@
-import CoreMedia
-
 struct TRUN: BinarySizedEncodable {
     
     let type: Atom          = .trun    

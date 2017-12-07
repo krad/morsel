@@ -1,5 +1,4 @@
 import Foundation
-import CoreMedia
 
 class FragmentedMP4Segment {
     

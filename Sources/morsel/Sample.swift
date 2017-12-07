@@ -1,5 +1,4 @@
 import Foundation
-import CoreMedia
 
 public enum SampleType: UInt8 {
     case video    = 0x75 // v
@@ -26,8 +25,12 @@ extension Sample {
 }
 
 protocol MediaFormat { }
+#if os(Linux)
+#else
+import CoreMedia
 extension CMFormatDescription: MediaFormat { }
 extension AudioStreamBasicDescription: MediaFormat { }
+#endif
 
 public struct VideoSample: Sample {
     

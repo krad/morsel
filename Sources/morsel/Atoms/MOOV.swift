@@ -1,5 +1,3 @@
-import CoreMedia
-
 struct MOOV: BinaryEncodable {
     
     let type: Atom = .moov

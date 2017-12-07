@@ -1,5 +1,4 @@
 import Foundation
-import CoreMedia
 
 public struct StreamType: OptionSet {
     public var rawValue: UInt8

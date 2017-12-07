@@ -1,5 +1,3 @@
-import CoreMedia
-
 struct TRAF: BinarySizedEncodable {
     
     let type: Atom = .traf
