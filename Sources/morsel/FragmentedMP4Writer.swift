@@ -42,9 +42,10 @@ public class FragmentedMP4Writer {
         self.segmenter?.videoSettings = settings
     }
     
-    public func append(bytes: [UInt8]) {
-        var videoSample    = VideoSample(bytes: bytes)
-        videoSample.decode = Double(self.videoDecodeCount)
+    public func append(sample: Sample) {
+        var videoSample     = sample
+        videoSample.decode  = Double(self.videoDecodeCount)
+        
         self.segmenter?.append(videoSample)
         self.videoDecodeCount += videoSample.duration
     }

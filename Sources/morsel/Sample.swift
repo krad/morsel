@@ -7,20 +7,20 @@ public enum SampleType: UInt8 {
 
 extension SampleType: BinaryEncodable { }
 
-protocol Sample {
+public protocol Sample {
     var type: SampleType { get }
     var data: [UInt8] { get }
     var size: UInt32 { get }
     var duration: Int64 { get }
     var durationInSeconds: Double { get }
     
-    var decode: Double { get }
+    var decode: Double { get set }
     var timescale: UInt32 { get }
     var isSync: Bool { get }
 }
 
 extension Sample {
-    var durationInSeconds: Double {
+    public var durationInSeconds: Double {
         return Double(self.duration) / Double(self.timescale)
     }
 }
@@ -86,24 +86,24 @@ public struct VideoSample: Sample {
 
 public struct AudioSample: Sample {
     
-    let type: SampleType
-    let data: [UInt8]
+    public let type: SampleType
+    public let data: [UInt8]
     
-    var size: UInt32 {
+    public var size: UInt32 {
         return UInt32(self.data.count)
     }
     
-    var duration: Int64  = 0
-    var decode: Double   = 0
-    var timescale: UInt32
+    public var duration: Int64  = 0
+    public var decode: Double   = 0
+    public var timescale: UInt32
     
-    var format: MediaFormat // AudioStreamBasicDescription
+//    public var format: MediaFormat // AudioStreamBasicDescription
     
-    var isSync: Bool = false
+    public var isSync: Bool = false
 
-    let sampleSize: UInt16
-    let channels: UInt32
-    let sampleRate: Double
+    public let sampleSize: UInt16
+    public let channels: UInt32
+    public let sampleRate: Double
     
 //    init(sampleBuffer: CMSampleBuffer) {        
 //        /// Set the type and data
