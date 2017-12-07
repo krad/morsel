@@ -1,5 +1,4 @@
 import Foundation
-import AVFoundation
 
 public enum FragmentedMP4WriterError: Error {
     case fileNotDirectory
