@@ -6,14 +6,13 @@ public enum FragmentedMP4WriterError: Error {
 }
 
 protocol FragmentedMP4WriterProtocol {
-    
+    func append(sample: Sample, type: SampleType)
 }
 
 public class FragmentedMP4Writer {
     
     var segmenter: StreamSegmenter?
-//    var videoInput: FragmentedVideoInput?
-//    var audioInput: FragmentedAudioInput?
+
     var currentSegment: FragmentedMP4Segment?
     fileprivate var playerListWriter: HLSPlaylistWriter
     
@@ -39,15 +38,7 @@ public class FragmentedMP4Writer {
         self.segmenter  = try StreamSegmenter(outputDir: outputDir,
                                               targetSegmentDuration: targetDuration,
                                               streamType: streamType,
-                                              delegate: self)
-        
-//        self.videoInput = try FragmentedVideoInput() { sample in
-//            self.segmenter?.append(sample)
-//        }
-//
-//        self.audioInput = try FragmentedAudioInput() { sample in
-//            self.segmenter?.append(sample)
-//        }
+                                              delegate: self)        
     }
     
 //    public func got(_ sample: CMSampleBuffer, type: SampleType) {

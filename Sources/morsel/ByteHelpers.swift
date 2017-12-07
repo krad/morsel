@@ -77,3 +77,16 @@ extension Data {
         return map { String(format: "%02hhx", $0) }.joined()
     }
 }
+
+extension UInt8 {
+    func toBool() -> Bool {
+        switch self {
+        case 0x01:
+            return true
+        case 0x00:
+            return false
+        default:
+            return false
+        }
+    }
+}

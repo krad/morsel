@@ -6,7 +6,7 @@
 import Foundation
 
 extension Array: BinaryEncodable {
-    public func binaryEncode(to encoder: BinaryEncoder) throws {
+    internal func binaryEncode(to encoder: BinaryEncoder) throws {
         guard Element.self is Encodable.Type else {
             throw BinaryEncoder.Error.typeNotConformingToEncodable(Element.self)
         }
@@ -28,13 +28,13 @@ extension Array: BinaryEncodable {
 }
 
 extension String: BinaryEncodable {
-    public func binaryEncode(to encoder: BinaryEncoder) throws {
+    internal func binaryEncode(to encoder: BinaryEncoder) throws {
         try Array(self.utf8).binaryEncode(to: encoder)
     }
 }
 
 extension FixedWidthInteger where Self: BinaryEncodable {
-    public func binaryEncode(to encoder: BinaryEncoder) {
+    internal func binaryEncode(to encoder: BinaryEncoder) {
         encoder.appendBytes(of: self.bigEndian)
     }
 }

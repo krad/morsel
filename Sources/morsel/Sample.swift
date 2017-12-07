@@ -5,6 +5,8 @@ public enum SampleType: UInt8 {
     case audio    = 0x61 // a
 }
 
+extension SampleType: BinaryEncodable { }
+
 protocol Sample {
     var type: SampleType { get }
     var data: [UInt8] { get }
@@ -14,7 +16,6 @@ protocol Sample {
     
     var decode: Double { get }
     var timescale: UInt32 { get }
-    var format: MediaFormat { get }
     var isSync: Bool { get }
 }
 
@@ -50,13 +51,25 @@ public struct VideoSample: Sample {
     var decode: Double           = 0
     var timescale: UInt32        = 0
     
-    var format: MediaFormat // CMFormatDescription
-    
     var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
     
     var dependsOnOthers: Bool            = false
     var isSync: Bool                     = false
     var earlierDisplayTimesAllowed: Bool = false
+    
+    init(bytes: [UInt8]) {
+        self.type                       = .video
+        self.isSync                     = bytes[1].toBool()
+        self.dependsOnOthers            = bytes[2].toBool()
+        self.earlierDisplayTimesAllowed = bytes[3].toBool()
+        self.duration                   = Int64(bytes: Array(bytes[4..<12]))!
+        self.timescale                  = UInt32(bytes: Array(bytes[12..<16]))!
+        
+        let videoBytes = Array(bytes[16..<bytes.count])
+        for nalu in NALUStreamIterator(streamBytes: videoBytes, currentIdx: 0) {
+            self.nalus.append(nalu)
+        }
+    }
     
 //    init(sampleBuffer: CMSampleBuffer) {
 //        self.type       = .video
@@ -188,3 +201,4 @@ enum ChannelConfiguration: UInt8 {
     case frontCenterAndFrontLeftAndFrontRightAndBackLeftAndBackRightLFE                        = 6
     case frontCenterAndFrontLeftAndFrontRightAndSideLeftAndSideRightAndBackLeftAndBackRightLFE = 7
 }
+
