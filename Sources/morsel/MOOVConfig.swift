@@ -7,14 +7,14 @@ struct MOOVConfig {
     
 }
 
-struct VideoSettings {
+public struct VideoSettings {
     var sps: [UInt8]
     var pps: [UInt8]
     var width: UInt32
     var height: UInt32
     var timescale: UInt32 = 30000
     
-    init(params: [[UInt8]], dimensions: VideoDimensions, timescale: UInt32) {
+    public init(params: [[UInt8]], dimensions: VideoDimensions, timescale: UInt32) {
         self.sps        = params.first == nil ? [] : params.first!
         self.pps        = params.last  == nil ? [] : params.last!
         self.width      = dimensions.width
