@@ -22,7 +22,7 @@ class HLSEventPlaylist: PlaylistWriter {
     
     func writeSegment(with filename: String, duration: Float64, and firstMediaSequence: Int) -> String {
         self.firstMediaSequence = firstMediaSequence
-        return segmentEntry(fileName: filename, duration: duration)
+        return segmentEntry(fileName: filename, duration: duration) + "\n"
     }
     
     func end() -> String {
