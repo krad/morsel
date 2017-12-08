@@ -5,6 +5,11 @@ public enum FragmentedMP4WriterError: Error {
     case directoryDoesNotExist
 }
 
+public protocol FragmentedMP4WriterDelegate {
+    func wroteFile(at url: URL)
+    func updatedFile(at url: URL)
+}
+
 public class FragmentedMP4Writer {
     
     var segmenter: StreamSegmenter?
@@ -12,11 +17,13 @@ public class FragmentedMP4Writer {
     fileprivate var playerListWriter: HLSPlaylistWriter
     
     var videoDecodeCount: Int64 = 0
+    private var delegate: FragmentedMP4WriterDelegate?
     
     public init(_ outputDir: URL,
                 targetDuration: Double = 6,
                 playlistType: HLSPlaylistType = .live,
-                streamType: StreamType = [.video, .audio]) throws
+                streamType: StreamType = [.video, .audio],
+                delegate: FragmentedMP4WriterDelegate?) throws
     {
         /// Verify we have a directory to write to
         var isDir: ObjCBool = false
@@ -35,7 +42,9 @@ public class FragmentedMP4Writer {
         self.segmenter  = try StreamSegmenter(outputDir: outputDir,
                                               targetSegmentDuration: targetDuration,
                                               streamType: streamType,
-                                              delegate: self)        
+                                              delegate: self)
+        
+        self.delegate = delegate
     }
     
     public func configure(settings: VideoSettings) {
@@ -66,11 +75,13 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
                                                     config: config)
         
         self.playerListWriter.writerHeader()
+        self.delegate?.wroteFile(at: self.segmenter!.currentSegmentURL)
     }
     
     func createNewSegment(with segmentID: Int, and sequenceNumber: Int) {
         if let segment = self.currentSegment {
             self.playerListWriter.write(segment: segment)
+            self.delegate?.wroteFile(at: self.segmenter!.currentSegmentURL)
         }
         
         self.currentSegment = try? FragmentedMP4Segment(self.segmenter!.currentSegmentURL,
