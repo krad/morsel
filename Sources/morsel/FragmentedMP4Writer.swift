@@ -59,7 +59,7 @@ public class FragmentedMP4Writer {
         self.videoDecodeCount += videoSample.duration
     }
     
-    func stop() {
+    public func stop() {
         self.playerListWriter.end()
         self.delegate?.updatedFile(at: self.playerListWriter.file)
     }
