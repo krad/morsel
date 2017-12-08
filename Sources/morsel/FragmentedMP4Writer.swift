@@ -81,7 +81,7 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
     func createNewSegment(with segmentID: Int, and sequenceNumber: Int) {
         if let segment = self.currentSegment {
             self.playerListWriter.write(segment: segment)
-            self.delegate?.wroteFile(at: self.segmenter!.currentSegmentURL)
+            self.delegate?.wroteFile(at: segment.file)
         }
         
         self.currentSegment = try? FragmentedMP4Segment(self.segmenter!.currentSegmentURL,
