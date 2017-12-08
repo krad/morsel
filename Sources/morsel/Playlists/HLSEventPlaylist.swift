@@ -11,7 +11,7 @@ class HLSEventPlaylist: PlaylistWriter {
     func header(with targetDuration: Double) -> String {
         return [
             "#EXTM3U",
-            "#EXT-X-TARGETDURATION:\(targetDuration)",
+            "#EXT-X-TARGETDURATION:\(Int64(targetDuration))",
             "#EXT-X-VERSION:7",
             "#EXT-X-MEDIA-SEQUENCE:\(self.firstMediaSequence)",
             "#EXT-X-PLAYLIST-TYPE:EVENT",
