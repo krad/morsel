@@ -59,6 +59,7 @@ public class FragmentedMP4Writer {
         self.videoDecodeCount += videoSample.duration
     }
     
+    /// Appends and end tag for now
     public func stop() {
         self.playerListWriter.end()
         self.delegate?.updatedFile(at: self.playerListWriter.file)
