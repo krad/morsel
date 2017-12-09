@@ -1,7 +1,7 @@
 import Foundation
 import Dispatch
 
-public struct StreamType: OptionSet, BinaryEncodable {
+public struct AVStreamType: OptionSet, BinaryEncodable {
     public var rawValue: UInt8
     
     public init(rawValue: UInt8) {
