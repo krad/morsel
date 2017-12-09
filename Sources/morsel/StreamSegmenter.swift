@@ -1,11 +1,22 @@
 import Foundation
 import Dispatch
 
-public struct StreamType: OptionSet {
+public struct StreamType: OptionSet, BinaryEncodable {
     public var rawValue: UInt8
     
     public init(rawValue: UInt8) {
         self.rawValue = rawValue
+    }
+    
+    public static func parse(_ bytes: [UInt8]) -> StreamType? {
+        guard bytes.count == 5 else { return nil }
+        
+        if let valueByte = bytes.last {
+            guard valueByte >= 0 && valueByte <= 3 else { return nil }
+            let streamType = StreamType(rawValue: valueByte)
+            return streamType
+        }
+        return nil
     }
     
     public static let video = StreamType(rawValue: 1 << 0)

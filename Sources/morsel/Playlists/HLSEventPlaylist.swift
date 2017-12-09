@@ -29,5 +29,4 @@ class HLSEventPlaylist: PlaylistWriter {
         return "#EXT-X-ENDLIST\n"
     }
     
-    
 }
