@@ -8,19 +8,19 @@ public struct AVStreamType: OptionSet, BinaryEncodable {
         self.rawValue = rawValue
     }
     
-    public static func parse(_ bytes: [UInt8]) -> StreamType? {
+    public static func parse(_ bytes: [UInt8]) -> AVStreamType? {
         guard bytes.count == 5 else { return nil }
         
         if let valueByte = bytes.last {
             guard valueByte >= 0 && valueByte <= 3 else { return nil }
-            let streamType = StreamType(rawValue: valueByte)
+            let streamType = AVStreamType(rawValue: valueByte)
             return streamType
         }
         return nil
     }
     
-    public static let video = StreamType(rawValue: 1 << 0)
-    public static let audio = StreamType(rawValue: 1 << 1)
+    public static let video = AVStreamType(rawValue: 1 << 0)
+    public static let audio = AVStreamType(rawValue: 1 << 1)
     
     func supported(_ sample: Sample) -> Bool {
         if self == [.video, .audio] { return true }
@@ -41,7 +41,7 @@ class StreamSegmenter {
     
     var outputDir: URL
     let targetSegmentDuration: Double
-    var streamType: StreamType
+    var streamType: AVStreamType
     
     var currentSegment  = 0
     var currentSequence = 1
@@ -96,7 +96,7 @@ class StreamSegmenter {
 
     init(outputDir: URL,
          targetSegmentDuration: Double,
-         streamType: StreamType = [.video, .audio],
+         streamType: AVStreamType = [.video, .audio],
          delegate: StreamSegmenterDelegate? = nil) throws
     {
         self.outputDir             = outputDir

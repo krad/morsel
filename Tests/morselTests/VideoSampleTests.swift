@@ -44,32 +44,32 @@ class VideoSampleTests: XCTestCase {
     }
     
     func test_that_we_can_create_a_stream_type_from_bytes() {
-        let av: StreamType = [.audio, .video]
+        let av: AVStreamType = [.audio, .video]
         let avBytes = try? BinaryEncoder.encode(av)
         XCTAssertNotNil(avBytes)
         
-        let parsedAv = StreamType.parse(avBytes!)
+        let parsedAv = AVStreamType.parse(avBytes!)
         XCTAssertNotNil(parsedAv)
         XCTAssertEqual(parsedAv, [.audio, .video])
         
-        let a: StreamType = [.audio]
+        let a: AVStreamType = [.audio]
         let aBytes = try? BinaryEncoder.encode(a)
         XCTAssertNotNil(aBytes)
         
-        let parsedA = StreamType.parse(aBytes!)
+        let parsedA = AVStreamType.parse(aBytes!)
         XCTAssertNotNil(parsedA)
         XCTAssertEqual(parsedA, [.audio])
 
-        let v: StreamType = [.video]
+        let v: AVStreamType = [.video]
         let vBytes = try? BinaryEncoder.encode(v)
         XCTAssertNotNil(vBytes)
         
-        let parsedV = StreamType.parse(vBytes!)
+        let parsedV = AVStreamType.parse(vBytes!)
         XCTAssertNotNil(parsedV)
         XCTAssertEqual(parsedV, [.video])
         
         let randomBytes: [UInt8] = [0, 0, 0, 5, 44]
-        let parsedRandom         = StreamType.parse(randomBytes)
+        let parsedRandom         = AVStreamType.parse(randomBytes)
         XCTAssertNil(parsedRandom)
     }
     

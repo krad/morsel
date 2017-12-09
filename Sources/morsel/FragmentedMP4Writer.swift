@@ -22,7 +22,7 @@ public class FragmentedMP4Writer {
     public init(_ outputDir: URL,
                 targetDuration: Double = 6,
                 playlistType: HLSPlaylistType = .live,
-                streamType: StreamType = [.video, .audio],
+                streamType: AVStreamType = [.video, .audio],
                 delegate: FragmentedMP4WriterDelegate? = nil) throws
     {
         /// Verify we have a directory to write to
