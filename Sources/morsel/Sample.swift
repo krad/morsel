@@ -1,14 +1,12 @@
 import Foundation
 
-public enum SampleType: UInt8 {
+public enum AVSampleType: UInt8, BinaryEncodable {
     case video    = 0x75 // v
     case audio    = 0x61 // a
 }
 
-extension SampleType: BinaryEncodable { }
-
 public protocol Sample {
-    var type: SampleType { get }
+    var type: AVSampleType { get }
     var data: [UInt8] { get }
     var size: UInt32 { get }
     var duration: Int64 { get }
@@ -45,7 +43,7 @@ public struct VideoDimensions {
 
 public struct VideoSample: Sample {
     
-    public var type: SampleType
+    public var type: AVSampleType
     public var nalus: [NALU] = []
     
     public var data: [UInt8] {
@@ -86,7 +84,7 @@ public struct VideoSample: Sample {
 
 public struct AudioSample: Sample {
     
-    public let type: SampleType
+    public let type: AVSampleType
     public let data: [UInt8]
     
     public var size: UInt32 {
