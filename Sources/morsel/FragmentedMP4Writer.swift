@@ -17,6 +17,8 @@ public class FragmentedMP4Writer {
     fileprivate var playerListWriter: HLSPlaylistWriter
     
     var videoDecodeCount: Int64 = 0
+    var audioDecodeCount: Int64 = 0
+    
     private var delegate: FragmentedMP4WriterDelegate?
     
     public init(_ outputDir: URL,
@@ -55,18 +57,33 @@ public class FragmentedMP4Writer {
         self.segmenter?.audioSettings = settings
     }
     
-    public func append(sample: Sample) {
-        var videoSample     = sample
-        videoSample.decode  = Double(self.videoDecodeCount)
-        
-        self.segmenter?.append(videoSample)
-        self.videoDecodeCount += videoSample.duration
+    public func append(sample: Sample, type: AVSampleType) {
+        switch type {
+        case .video: self.append(videoSample: sample)
+        case .audio: self.append(audioSample: sample)
+        }
     }
     
     /// Appends and end tag for now
     public func stop() {
         self.playerListWriter.end()
         self.delegate?.updatedFile(at: self.playerListWriter.file)
+    }
+    
+    private func append(videoSample: Sample) {
+        var sample     = videoSample
+        sample.decode  = Double(self.videoDecodeCount)
+        
+        self.segmenter?.append(sample)
+        self.videoDecodeCount += sample.duration
+    }
+    
+    private func append(audioSample: Sample) {
+        var sample    = audioSample
+        sample.decode = Double(self.audioDecodeCount)
+        
+        self.segmenter?.append(sample)
+        self.audioDecodeCount += sample.duration
     }
 
 }
