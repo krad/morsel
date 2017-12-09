@@ -91,38 +91,31 @@ public struct AudioSample: Sample {
         return UInt32(self.data.count)
     }
     
-    public var duration: Int64  = 0
-    public var decode: Double   = 0
-    public var timescale: UInt32
-    
-//    public var format: MediaFormat // AudioStreamBasicDescription
-    
+    public var duration: Int64          = 0
+    public var durationSeconds: Double  = 0
+    public var decode: Double           = 0
+    public var timescale: UInt32        = 0
+        
     public var isSync: Bool = false
 
     public let sampleSize: UInt16
     public let channels: UInt32
     public let sampleRate: Double
     
-//    init(sampleBuffer: CMSampleBuffer) {        
-//        /// Set the type and data
-//        self.type       = .audio
-//        self.data       = bytes(from: sampleBuffer)!
-//        
-//        /// Get the stream description
-//        let asbd        = getStreamDescription(from: sampleBuffer)!
-//        
-//        self.format     = asbd
-//        self.timescale  = UInt32(asbd.mSampleRate)
-//        
-//        /// Set the sample size
-//        self.sampleSize = 16
-//        
-//        /// Set the channels and sample rate
-//        self.channels   = asbd.mChannelsPerFrame
-//        self.sampleRate = asbd.mSampleRate
-//    }
+    public init(bytes: [UInt8]) {
+        self.type            = .audio
+        self.duration        = Int64(bytes: Array(bytes[1..<9]))!
+        self.timescale       = UInt32(bytes: Array(bytes[9..<13]))!
+        self.durationSeconds = Double(duration) / Double(timescale)
+        
+        self.sampleSize = 16
+        self.channels   = 2
+        self.sampleRate = Double(self.timescale)
+        
+        let audioBytes = Array(bytes[13..<bytes.count])
+        self.data      = audioBytes
+    }
     
-
 }
 
 enum AudioObjectType: UInt8 {

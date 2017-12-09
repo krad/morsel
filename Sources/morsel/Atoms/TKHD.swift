@@ -38,7 +38,7 @@ struct TKHD: BinarySizedEncodable {
         return tkhd
     }
     
-    static func from(_ config: MOOVAudioSettings) -> TKHD {
+    static func from(_ config: AudioSettings) -> TKHD {
         var tkhd         = TKHD()
         tkhd.trackID     = 2
         tkhd.trackWidth  = 0

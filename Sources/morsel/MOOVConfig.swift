@@ -1,7 +1,7 @@
 struct MOOVConfig {
     
     var videoSettings: VideoSettings?
-    var audioSettings: MOOVAudioSettings?
+    var audioSettings: AudioSettings?
     
     init() { }
     
@@ -23,7 +23,7 @@ public struct VideoSettings {
     }
 }
 
-struct MOOVAudioSettings {
+public struct AudioSettings {
     
     var channels: UInt32   = 2
     var sampleRate: UInt32 = 44100

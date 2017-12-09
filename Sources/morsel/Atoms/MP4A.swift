@@ -16,7 +16,7 @@ struct MP4A: BinarySizedEncodable {
 
     var esds: [ESDS]       = [ESDS()]
     
-    static func from(_ config: MOOVAudioSettings) -> MP4A {
+    static func from(_ config: AudioSettings) -> MP4A {
         var mp4a         = MP4A()
         mp4a.sampleSize = config.sampleSize
         mp4a.sampleRate = config.sampleRate << 16

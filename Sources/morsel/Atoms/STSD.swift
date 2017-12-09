@@ -17,7 +17,7 @@ struct STSD: BinarySizedEncodable {
         return stsd
     }
     
-    static func from(_ config: MOOVAudioSettings) -> STSD {
+    static func from(_ config: AudioSettings) -> STSD {
         var stsd    = STSD()
         stsd.avc1   = nil
         stsd.mp4a   = [MP4A.from(config)]

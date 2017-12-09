@@ -23,7 +23,7 @@ struct MDHD: BinarySizedEncodable {
         return mdhd
     }
     
-    static func from(_ config: MOOVAudioSettings) -> MDHD {
+    static func from(_ config: AudioSettings) -> MDHD {
         var mdhd = MDHD()
         mdhd.timeScale = config.sampleRate
         return mdhd

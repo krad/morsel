@@ -14,7 +14,7 @@ struct MDIA: BinarySizedEncodable {
         return mdia
     }
     
-    static func from(_ config: MOOVAudioSettings) -> MDIA {
+    static func from(_ config: AudioSettings) -> MDIA {
         var mdia                  = MDIA()
         mdia.mediaHeaderAtom      = [MDHD.from(config)]
         mdia.handlerReferenceAtom = [HDLR.with(sampleType: .audio)]

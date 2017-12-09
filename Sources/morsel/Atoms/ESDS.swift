@@ -49,7 +49,7 @@ struct ESDS: BinarySizedEncodable {
     var slConfigLen: UInt8 = 0x01
     var slmp4Const: UInt8 = 0x02
 
-    static func from(_ config: MOOVAudioSettings) -> ESDS {
+    static func from(_ config: AudioSettings) -> ESDS {
         var esds = ESDS()
         
         let audioSpecificConfig = AudioSpecificConfig(type: config.audioObjectType,

@@ -67,6 +67,10 @@ class StreamSegmenter {
     internal var videoSettings: VideoSettings? {
         didSet { self.moovConfig.videoSettings = videoSettings }
     }
+    
+    internal var audioSettings: AudioSettings? {
+        didSet { self.moovConfig.audioSettings = audioSettings }
+    }
 
     var currentSegmentName: String {
         return "fileSeq\(self.currentSegment).mp4"
@@ -109,11 +113,8 @@ class StreamSegmenter {
     }
     
     func append(_ sample: Sample) {
-        self.updateMOOVConfig(with: sample)
         if self.streamType.supported(sample) {
-            
             self.buffer(sample: sample)
-            
             if self.wroteInitSegment {
                 self.handle(sample)
             } else {
@@ -123,7 +124,6 @@ class StreamSegmenter {
                     self.handle(sample)
                 }
             }
-            
         }
     }
     
@@ -203,13 +203,6 @@ class StreamSegmenter {
         case .audio: self.audioSamples.append(sample)
         case .video: self.videoSamples.append(sample)
         }
-    }
-    
-    private func updateMOOVConfig(with sample: Sample) {
-//        switch sample.type {
-//        case .audio: self.moovConfig.audioSettings = MOOVAudioSettings(sample)
-//        case .video: self.moovConfig.videoSettings = MOOVVideoSettings(sample)
-//        }
     }
     
 }

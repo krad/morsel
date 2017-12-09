@@ -15,7 +15,7 @@ struct MINF: BinarySizedEncodable {
         return minf
     }
 
-    static func from(_ config: MOOVAudioSettings) -> MINF {
+    static func from(_ config: AudioSettings) -> MINF {
         var minf = MINF()
         minf.videoMediaInformationAtom = nil
         minf.soundMediaInformationAtom = [SMHD()]

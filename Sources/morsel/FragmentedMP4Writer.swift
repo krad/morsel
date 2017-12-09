@@ -51,6 +51,10 @@ public class FragmentedMP4Writer {
         self.segmenter?.videoSettings = settings
     }
     
+    public func configure(settings: AudioSettings) {
+        self.segmenter?.audioSettings = settings
+    }
+    
     public func append(sample: Sample) {
         var videoSample     = sample
         videoSample.decode  = Double(self.videoDecodeCount)
