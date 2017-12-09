@@ -9,7 +9,7 @@ public struct AVStreamType: OptionSet {
     }
     
     public static func parse(_ bytes: [UInt8]) -> AVStreamType? {
-        guard bytes.count == 5 else { return nil }
+        guard bytes.count == 2 else { return nil }
         
         if let valueByte = bytes.last {
             guard valueByte >= 0 && valueByte <= 3 else { return nil }
