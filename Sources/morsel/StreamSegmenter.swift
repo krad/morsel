@@ -1,7 +1,7 @@
 import Foundation
 import Dispatch
 
-public struct AVStreamType: OptionSet, BinaryEncodable {
+public struct AVStreamType: OptionSet {
     public var rawValue: UInt8
     
     public init(rawValue: UInt8) {
@@ -28,8 +28,9 @@ public struct AVStreamType: OptionSet, BinaryEncodable {
         if self == [.audio] && sample.type == .audio { return true }
         return false
     }
-    
 }
+
+extension AVStreamType: BinaryEncodable { }
 
 protocol StreamSegmenterDelegate {
     func writeInitSegment(with config: MOOVConfig)
