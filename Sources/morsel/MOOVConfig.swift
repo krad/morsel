@@ -41,17 +41,15 @@ public struct AudioSettings {
         self.channelLayout   = channelLayout
     }
     
-//    init(_ sample: Sample) {
-//        let format = sample.format as! AudioStreamBasicDescription
-//        
-//        self.channels   = format.mChannelsPerFrame
-//        self.sampleRate = sample.timescale
-//        
-//        self.audioObjectType  = AudioObjectType(objectID: MPEG4ObjectID(rawValue: Int(format.mFormatFlags))!)
-//        self.channelLayout    = ChannelConfiguration(rawValue: UInt8(format.mChannelsPerFrame))!
-//        self.samplingFreq     = SamplingFrequency(sampleRate: format.mSampleRate)
-//    }
-    
+    public init(_ sample: AudioSample) {
+        self.channels   = sample.channels
+        self.sampleRate = UInt32(sample.sampleRate)
+        
+        self.audioObjectType = AudioObjectType.AAC_Main
+        self.channelLayout   = ChannelConfiguration(rawValue: UInt8(sample.channels))!
+        self.samplingFreq    = SamplingFrequency(sampleRate: sample.sampleRate)
+    }
+
 }
 
 
