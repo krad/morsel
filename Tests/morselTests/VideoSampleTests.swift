@@ -48,7 +48,7 @@ class VideoSampleTests: XCTestCase {
         let avBytes = try? BinaryEncoder.encode(av)
         XCTAssertNotNil(avBytes)
         
-        let parsedAv = AVStreamType.parse(avBytes!)
+        let parsedAv = AVStreamType.parse(Array(avBytes![3..<avBytes!.count]))
         XCTAssertNotNil(parsedAv)
         XCTAssertEqual(parsedAv, [.audio, .video])
         
@@ -56,7 +56,7 @@ class VideoSampleTests: XCTestCase {
         let aBytes = try? BinaryEncoder.encode(a)
         XCTAssertNotNil(aBytes)
         
-        let parsedA = AVStreamType.parse(aBytes!)
+        let parsedA = AVStreamType.parse(Array(aBytes![3..<aBytes!.count]))
         XCTAssertNotNil(parsedA)
         XCTAssertEqual(parsedA, [.audio])
 
@@ -64,7 +64,7 @@ class VideoSampleTests: XCTestCase {
         let vBytes = try? BinaryEncoder.encode(v)
         XCTAssertNotNil(vBytes)
         
-        let parsedV = AVStreamType.parse(vBytes!)
+        let parsedV = AVStreamType.parse(Array(vBytes![3..<vBytes!.count]))
         XCTAssertNotNil(parsedV)
         XCTAssertEqual(parsedV, [.video])
         

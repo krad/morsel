@@ -109,7 +109,7 @@ public struct AudioSample: Sample {
         self.durationSeconds = Double(duration) / Double(timescale)
         
         self.sampleSize = 16
-        self.channels   = 2
+        self.channels   = 1
         self.sampleRate = Double(self.timescale)
         
         let audioBytes = Array(bytes[13..<bytes.count])

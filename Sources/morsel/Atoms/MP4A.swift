@@ -18,6 +18,7 @@ struct MP4A: BinarySizedEncodable {
     
     static func from(_ config: AudioSettings) -> MP4A {
         var mp4a         = MP4A()
+        mp4a.channels   = UInt16(config.channels)
         mp4a.sampleSize = config.sampleSize
         mp4a.sampleRate = config.sampleRate << 16
         mp4a.esds       = [ESDS()]
