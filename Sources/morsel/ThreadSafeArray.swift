@@ -45,6 +45,11 @@ internal class ThreadSafeArray<T>: Collection {
         return index
     }
     
+    func first(upTo count: Int) -> ArraySlice<T> {
+        var results: ArraySlice<T> = []
+        q.sync { results = self.array.prefix(count) }
+        return results
+    }
     
     internal subscript(index: Int) -> T {
         set {
