@@ -25,7 +25,7 @@ public struct VideoSettings {
 
 public struct AudioSettings {
     
-    var channels: UInt32   = 1
+    var channels: UInt32   = 2
     var sampleRate: UInt32 = 44100
     var sampleSize: UInt16 = 16
     var audioObjectType: AudioObjectType
