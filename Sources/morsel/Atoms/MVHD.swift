@@ -34,7 +34,8 @@ struct MVHD: BinarySizedEncodable {
     
     static func from(_ config: VideoSettings) -> MVHD {
         var mvhd = MVHD()
-        mvhd.timeScale = config.timescale
+        mvhd.timeScale = 44100 // THIS is where Apple set's the time scale to be the audio sample rate
+//        mvhd.timeScale = config.timescale
         return mvhd
     }
     
