@@ -19,8 +19,7 @@ struct MDHD: BinarySizedEncodable {
     
     static func from(_ config: VideoSettings) -> MDHD {
         var mdhd = MDHD()
-//        mdhd.timeScale = config.timescale
-        mdhd.timeScale = 44100 // Weird bug where audio gets out of sync.  Noticed apple also does this.
+        mdhd.timeScale = config.timescale
         return mdhd
     }
     
