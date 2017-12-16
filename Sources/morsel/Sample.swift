@@ -189,3 +189,30 @@ enum ChannelConfiguration: UInt8 {
     case frontCenterAndFrontLeftAndFrontRightAndSideLeftAndSideRightAndBackLeftAndBackRightLFE = 7
 }
 
+public func ==(lhs: VideoSettings, rhs: VideoSettings) -> Bool {
+    if lhs.sps == rhs.sps {
+        if lhs.pps == rhs.pps {
+            if lhs.width == rhs.width {
+                if lhs.height == rhs.height {
+                    if lhs.timescale == rhs.timescale {
+                        return true
+                    }
+                }
+            }
+        }
+    }
+    return false
+}
+
+extension VideoSettings: Equatable { }
+
+public func ==(lhs: VideoDimensions, rhs: VideoDimensions) -> Bool {
+    if lhs.width == rhs.width {
+        if lhs.height == rhs.height {
+            return true
+        }
+    }
+    return false
+}
+
+extension VideoDimensions: Equatable { }
