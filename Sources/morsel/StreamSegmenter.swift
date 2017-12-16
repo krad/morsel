@@ -65,7 +65,11 @@ class StreamSegmenter {
 
     internal var moovConfig = MOOVConfig()
     internal var videoSettings: VideoSettings? {
-        didSet { self.moovConfig.videoSettings = videoSettings }
+        didSet {
+            self.moovConfig.videoSettings = videoSettings
+            // If we already wrote an init segment we need to write another one
+            if self.wroteInitSegment { self.wroteInitSegment = false }
+        }
     }
     
     internal var audioSettings: AudioSettings? {
