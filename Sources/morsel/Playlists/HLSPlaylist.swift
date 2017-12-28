@@ -49,6 +49,18 @@ class HLSPlaylistWriter {
                                                  and: mediaSequence))
     }
     
+    func writeDiscontinuity(with mediaSequence: Int) {
+        self.write(self.discontinuityTag(with: mediaSequence))
+    }
+    
+    private func discontinuityTag(with mediaSequence: Int) -> String {
+        return [
+            "#EXT-X-DISCONTINUITY",
+            "#EXT-X-MAP:URI=\"fileSeq\(mediaSequence).mp4\""
+            ].joined(separator: "\n") + "\n"
+    }
+
+    
     private func write(_ string: String) {
         let payloadBytes: [UInt8] = Array(string.utf8)
         let data                  = Data(payloadBytes)

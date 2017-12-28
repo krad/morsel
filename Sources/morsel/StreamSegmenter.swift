@@ -33,7 +33,7 @@ public struct AVStreamType: OptionSet {
 extension AVStreamType: BinaryEncodable { }
 
 protocol StreamSegmenterDelegate {
-    func writeInitSegment(with config: MOOVConfig)
+    func writeInitSegment(with config: MOOVConfig, isDiscontinuity: Bool)
     func createNewSegment(with segmentID: Int, and sequenceNumber: Int)
     func writeMOOF(with samples: [Sample], and duration: Double)
 }
@@ -68,7 +68,11 @@ class StreamSegmenter {
         didSet {
             self.moovConfig.videoSettings = videoSettings
             // If we already wrote an init segment we need to write another one
-            if self.wroteInitSegment { self.wroteInitSegment = false }
+            if self.wroteInitSegment {
+                self.writeMOOF() // Flush out remaining samples
+                self.currentSegment += 1
+                self.delegate?.writeInitSegment(with: self.moovConfig, isDiscontinuity: true)
+            }
         }
     }
     
@@ -123,7 +127,7 @@ class StreamSegmenter {
                 self.handle(sample)
             } else {
                 if self.readyForMOOV {
-                    self.delegate?.writeInitSegment(with: self.moovConfig)
+                    self.delegate?.writeInitSegment(with: self.moovConfig, isDiscontinuity: false)
                     self.wroteInitSegment = true
                     self.handle(sample)
                 }
@@ -136,7 +140,6 @@ class StreamSegmenter {
             self.currentSegment += 1
             self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
         } else {
-            
             if sample.isSync { self.writeMOOF() }
         }
     }

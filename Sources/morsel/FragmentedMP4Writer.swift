@@ -89,11 +89,16 @@ public class FragmentedMP4Writer {
 }
 
 extension FragmentedMP4Writer: StreamSegmenterDelegate {
-    func writeInitSegment(with config: MOOVConfig) {
+    func writeInitSegment(with config: MOOVConfig, isDiscontinuity: Bool = false) {
+        
         _ = try? FragementedMP4InitalizationSegment(self.segmenter!.currentSegmentURL,
                                                     config: config)
         
-        self.playerListWriter.writerHeader()
+        if isDiscontinuity {
+            self.playerListWriter.writeDiscontinuity(with: self.segmenter!.currentSegment)
+        } else {
+            self.playerListWriter.writerHeader()
+        }
         self.delegate?.wroteFile(at: self.segmenter!.currentSegmentURL)
     }
     

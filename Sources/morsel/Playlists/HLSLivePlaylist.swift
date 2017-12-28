@@ -51,9 +51,8 @@ class HLSLivePlayerWriter: PlaylistWriter {
         let headerSection = self.header(with: self.targetDuration)
         
         return headerSection + segmentsSection
-        
     }
-    
+        
     func end() -> String {
         return ""
     }
