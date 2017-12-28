@@ -70,9 +70,9 @@ class StreamSegmenter {
             // If we already wrote an init segment we need to write another one
             if self.wroteInitSegment {
                 self.writeMOOF() // Flush out remaining samples
-                self.currentSegment += 1
                 self.delegate?.writeInitSegment(with: self.moovConfig, isDiscontinuity: true)
                 self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
+                self.currentSegment += 1
             }
         }
     }
