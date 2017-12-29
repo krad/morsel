@@ -33,8 +33,16 @@ public struct AVStreamType: OptionSet {
 extension AVStreamType: BinaryEncodable { }
 
 protocol StreamSegmenterDelegate {
-    func writeInitSegment(with config: MOOVConfig, segmentNumber: Int, isDiscontinuity: Bool)
-    func createNewSegment(with config: MOOVConfig, segmentNumber: Int, sequenceNumber: Int)
+    func writeInitSegment(with config: MOOVConfig,
+                          to url: URL,
+                          segmentNumber: Int,
+                          isDiscontinuity: Bool)
+    
+    func createNewSegment(with config: MOOVConfig,
+                          to url: URL,
+                          segmentNumber: Int,
+                          sequenceNumber: Int)
+    
     func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int)
 }
 
@@ -73,6 +81,7 @@ final internal class StreamSegmenter {
                 
                 self.currentSegment += 1
                 self.delegate?.writeInitSegment(with: self.moovConfig,
+                                                to: self.currentSegmentURL,
                                                 segmentNumber: self.currentSegment,
                                                 isDiscontinuity: true)
                 self.signalNewSegment()
@@ -132,6 +141,7 @@ final internal class StreamSegmenter {
             } else {
                 if self.readyForMOOV {
                     self.delegate?.writeInitSegment(with: self.moovConfig,
+                                                    to: self.currentSegmentURL,
                                                     segmentNumber: self.currentSegment,
                                                     isDiscontinuity: false)
                     self.wroteInitSegment = true
@@ -145,6 +155,7 @@ final internal class StreamSegmenter {
         if self.currentSegment == 0 {
             self.currentSegment += 1
             self.delegate?.createNewSegment(with: self.moovConfig,
+                                            to: self.currentSegmentURL,
                                             segmentNumber: self.currentSegment,
                                             sequenceNumber: self.currentSequence)
         } else {
@@ -171,6 +182,7 @@ final internal class StreamSegmenter {
             // Signal that we should create a new segment
             self.currentSegment += 1
             self.delegate?.createNewSegment(with: self.moovConfig,
+                                            to: self.currentSegmentURL,
                                             segmentNumber: self.currentSegment,
                                             sequenceNumber: self.currentSequence)
             
@@ -218,6 +230,7 @@ final internal class StreamSegmenter {
     private func signalNewSegment() {
         self.currentSegment += 1
         self.delegate?.createNewSegment(with: self.moovConfig,
+                                        to: self.currentSegmentURL,
                                         segmentNumber: self.currentSegment,
                                         sequenceNumber: self.currentSequence)
     }
