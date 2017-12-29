@@ -89,20 +89,21 @@ public class FragmentedMP4Writer {
 }
 
 extension FragmentedMP4Writer: StreamSegmenterDelegate {
-    func writeInitSegment(with config: MOOVConfig, isDiscontinuity: Bool = false) {
-        
+    
+    func writeInitSegment(with config: MOOVConfig, segmentNumber: Int, isDiscontinuity: Bool) {
         _ = try? FragementedMP4InitalizationSegment(self.segmenter!.currentSegmentURL,
                                                     config: config)
         
         if isDiscontinuity {
-            self.playerListWriter.writeDiscontinuity(with: self.segmenter!.currentSegment)
+            self.playerListWriter.writeDiscontinuity(with: segmentNumber)
         } else {
             self.playerListWriter.writerHeader()
         }
         self.delegate?.wroteFile(at: self.segmenter!.currentSegmentURL)
+
     }
     
-    func createNewSegment(with segmentID: Int, and sequenceNumber: Int) {
+    func createNewSegment(with config: MOOVConfig, segmentNumber: Int, sequenceNumber: Int) {
         if let segment = self.currentSegment {
             self.playerListWriter.write(segment: segment)
             self.delegate?.wroteFile(at: segment.file)
@@ -110,13 +111,13 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
         }
         
         self.currentSegment = try? FragmentedMP4Segment(self.segmenter!.currentSegmentURL,
-                                                        config: self.segmenter!.moovConfig,
-                                                        firstSequence: self.segmenter!.currentSequence)
+                                                        config: config,
+                                                        firstSequence: sequenceNumber)
     }
     
-    func writeMOOF(with samples: [Sample], and duration: Double) {
-        self.currentSegment?.currentSequence = self.segmenter!.currentSequence
-        try? self.currentSegment?.write(samples, with: duration)
+    func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int) {
+        try? self.currentSegment?.write(samples, duration: duration, sequenceNumber: sequenceNumber)
     }
+    
 }
 

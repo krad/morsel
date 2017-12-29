@@ -7,7 +7,6 @@ class FragmentedMP4Segment {
     
     /// Current moof we're on
     var firstSequence: Int
-    var currentSequence: Int
     var duration: Double = 0.0
     
     private var config: MOOVConfig
@@ -27,15 +26,14 @@ class FragmentedMP4Segment {
         
         self.fileHandle      = try FileHandle(forWritingTo: file)
         self.firstSequence   = firstSequence
-        self.currentSequence = firstSequence
     }
     
-    func write(_ samples: [Sample], with duration: Double) throws {
+    func write(_ samples: [Sample], duration: Double, sequenceNumber: Int) throws {
         self.duration += duration
         
         let moof = MOOF(config: self.config,
                         samples: samples,
-                        currentSequence: UInt32(self.currentSequence))
+                        currentSequence: UInt32(sequenceNumber))
         
         let mdat = MDAT(samples: samples)
         
