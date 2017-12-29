@@ -33,31 +33,39 @@ public struct AVStreamType: OptionSet {
 extension AVStreamType: BinaryEncodable { }
 
 protocol StreamSegmenterDelegate {
-    func writeInitSegment(with config: MOOVConfig, isDiscontinuity: Bool)
-    func createNewSegment(with segmentID: Int, and sequenceNumber: Int)
-    func writeMOOF(with samples: [Sample], and duration: Double)
+    func writeInitSegment(with config: MOOVConfig,
+                          to url: URL,
+                          segmentNumber: Int,
+                          isDiscontinuity: Bool)
+    
+    func createNewSegment(with config: MOOVConfig,
+                          to url: URL,
+                          segmentNumber: Int,
+                          sequenceNumber: Int)
+    
+    func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int)
 }
 
-class StreamSegmenter {
+final internal class StreamSegmenter {
     
-    var outputDir: URL
-    let targetSegmentDuration: Double
-    var streamType: AVStreamType
+    final internal private(set) var outputDir: URL
+    final internal let targetSegmentDuration: Double
+    final internal var streamType: AVStreamType
     
-    var currentSegment  = 0
-    var currentSequence = 1
+    final internal var currentSegment  = 0
+    final internal var currentSequence = 1
     
-    internal var videoSamples: ThreadSafeArray<Sample>
-    internal var videoSamplesDuration: Double {
+    final internal var videoSamples: ThreadSafeArray<Sample>
+    final internal var videoSamplesDuration: Double {
         return self.videoSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
     
-    internal var audioSamples: ThreadSafeArray<Sample>
-    internal var audioSamplesDuration: Double {
+    final internal var audioSamples: ThreadSafeArray<Sample>
+    final internal var audioSamplesDuration: Double {
         return self.audioSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
     
-    internal var currentSegmentDuration: Double = 0.0
+    final internal var currentSegmentDuration: Double = 0.0
 
     private var segmenterQ = DispatchQueue(label: "stream.segmenter.q")
     private var delegate: StreamSegmenterDelegate?
@@ -70,9 +78,13 @@ class StreamSegmenter {
             // If we already wrote an init segment we need to write another one
             if self.wroteInitSegment {
                 self.writeMOOF() // Flush out remaining samples
-                self.delegate?.writeInitSegment(with: self.moovConfig, isDiscontinuity: true)
-                self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
+                
                 self.currentSegment += 1
+                self.delegate?.writeInitSegment(with: self.moovConfig,
+                                                to: self.currentSegmentURL,
+                                                segmentNumber: self.currentSegment,
+                                                isDiscontinuity: true)
+                self.signalNewSegment()
             }
         }
     }
@@ -128,7 +140,10 @@ class StreamSegmenter {
                 self.handle(sample)
             } else {
                 if self.readyForMOOV {
-                    self.delegate?.writeInitSegment(with: self.moovConfig, isDiscontinuity: false)
+                    self.delegate?.writeInitSegment(with: self.moovConfig,
+                                                    to: self.currentSegmentURL,
+                                                    segmentNumber: self.currentSegment,
+                                                    isDiscontinuity: false)
                     self.wroteInitSegment = true
                     self.handle(sample)
                 }
@@ -139,7 +154,10 @@ class StreamSegmenter {
     private func handle(_ sample: Sample) {
         if self.currentSegment == 0 {
             self.currentSegment += 1
-            self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
+            self.delegate?.createNewSegment(with: self.moovConfig,
+                                            to: self.currentSegmentURL,
+                                            segmentNumber: self.currentSegment,
+                                            sequenceNumber: self.currentSequence)
         } else {
             if sample.isSync { self.writeMOOF() }
         }
@@ -152,7 +170,10 @@ class StreamSegmenter {
         
         // We're gonna hit our target duration
         if vDuration + self.currentSegmentDuration >= self.targetSegmentDuration {
-            self.delegate?.writeMOOF(with: vSamples + aSamples, and: vDuration)
+            
+            self.delegate?.writeMOOF(with: vSamples + aSamples,
+                                     duration: vDuration,
+                                     sequenceNumber: self.currentSequence)
             
             // Bump the sequence and duration
             self.currentSequence        += 1
@@ -160,11 +181,16 @@ class StreamSegmenter {
 
             // Signal that we should create a new segment
             self.currentSegment += 1
-            self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
+            self.delegate?.createNewSegment(with: self.moovConfig,
+                                            to: self.currentSegmentURL,
+                                            segmentNumber: self.currentSegment,
+                                            sequenceNumber: self.currentSequence)
             
         } else {
             // Write another moof
-            self.delegate?.writeMOOF(with: vSamples + aSamples, and: vDuration)
+            self.delegate?.writeMOOF(with: vSamples + aSamples,
+                                     duration: vDuration,
+                                     sequenceNumber: self.currentSequence)
             self.currentSequence        += 1
             self.currentSegmentDuration += vDuration
         }
@@ -203,7 +229,10 @@ class StreamSegmenter {
     
     private func signalNewSegment() {
         self.currentSegment += 1
-        self.delegate?.createNewSegment(with: self.currentSegment, and: self.currentSequence)
+        self.delegate?.createNewSegment(with: self.moovConfig,
+                                        to: self.currentSegmentURL,
+                                        segmentNumber: self.currentSegment,
+                                        sequenceNumber: self.currentSequence)
     }
     
     private func buffer(sample: Sample) {
