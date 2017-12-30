@@ -2,7 +2,7 @@ import Foundation
 
 public struct NALU: CustomStringConvertible {
     
-    var data: [UInt8]
+    public private(set) var data: [UInt8]
     
     var type: NALUType {
         return NALUType(rawValue: self.data[4] & 0x1f)!
