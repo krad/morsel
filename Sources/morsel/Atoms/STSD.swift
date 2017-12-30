@@ -17,7 +17,7 @@ struct STSD: BinarySizedEncodable {
         // FIXME: Remove.  This is here to test integration with cisco's bullshit h264 thing
         if let avc1 = stsd.avc1 {
             let avc1Bytes = try? BinaryEncoder.encode(avc1)
-            print(avc1Bytes)
+            print(avc1Bytes as! [UInt8])
         }
         
         stsd.mp4a = nil
