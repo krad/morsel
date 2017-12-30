@@ -1,4 +1,6 @@
 // FIXME
+import Foundation
+
 struct STSD: BinarySizedEncodable {
     
     let type: Atom = .stsd
@@ -17,7 +19,18 @@ struct STSD: BinarySizedEncodable {
         // FIXME: Remove.  This is here to test integration with cisco's bullshit h264 thing
         if let avc1 = stsd.avc1 {
             let avc1Bytes = try? BinaryEncoder.encode(avc1)
-            print(avc1Bytes as! [UInt8])
+            
+            let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,
+                                                                    .userDomainMask, true)[0]
+            let uuid = UUID().uuidString
+            let url  = URL(fileURLWithPath: documentsPath).appendingPathComponent("\(uuid).h264_params")
+            let data = Data(avc1Bytes!)
+            do {
+                print("Writing data to", url)
+                try data.write(to: url)
+            } catch let err {
+                print("Could not write data", err)
+            }
         }
         
         stsd.mp4a = nil
