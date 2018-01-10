@@ -24,12 +24,12 @@ struct AVCC: BinarySizedEncodable {
     
     static func from(_ config: VideoSettings) -> AVCC {
         var avcc = AVCC()
-        avcc.sps       = [SPS(data: Array(config.sps[1..<config.sps.count]))]
+        avcc.sps       = [SPS(data: config.sps)]
         avcc.spsCount  = 1
-        avcc.spsLength = UInt16(config.sps.count-1)
-        avcc.pps       = [PPS(data: Array(config.pps[1..<config.pps.count]))]
+        avcc.spsLength = UInt16(config.sps.count)
+        avcc.pps       = [PPS(data: config.pps)]
         avcc.ppsCount  = 1
-        avcc.ppsLength = UInt16(config.pps.count-1)
+        avcc.ppsLength = UInt16(config.pps.count)
         return avcc
     }
     
