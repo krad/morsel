@@ -4,9 +4,9 @@ struct AVCC: BinarySizedEncodable {
     let type: Atom = .avcC
     
     var version: UInt8 = 1
-    var profile: UInt8 = 77
+    var profile: UInt8 = 0x42 // 66 Baseline
     var profileCompatibility: UInt8 = 0
-    var levelIndication: UInt8 = 31
+    var levelIndication: UInt8 = 30
     
     var naluSize: UInt8   = 3 // NALUnitLength field in the parameter set minus 1
     var spsCount: UInt8   = 0xe1
@@ -24,6 +24,7 @@ struct AVCC: BinarySizedEncodable {
     
     static func from(_ config: VideoSettings) -> AVCC {
         var avcc = AVCC()
+//        avcc.profile   = config.sps[0]
         avcc.sps       = [SPS(data: config.sps)]
         avcc.spsCount  = 1
         avcc.spsLength = UInt16(config.sps.count)
