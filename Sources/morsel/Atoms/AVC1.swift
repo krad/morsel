@@ -29,7 +29,7 @@ struct AVC1: BinarySizedEncodable {
     var colorTableID: UInt16 = 65535
 
     var avcC: [AVCC] = [AVCC()]
-    var colr: [COLR] = [COLR()]
+//    var colr: [COLR] = [COLR()]
     var pasp: [PASP] = [PASP()]
     
     static func from(_ config: VideoSettings) -> AVC1 {

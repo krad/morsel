@@ -15,16 +15,16 @@ struct HDLR: BinarySizedEncodable {
     var componentFlags: UInt32 = 0
     var componentFlagMask: UInt32 = 0
     
-    var componentName: String = "Core Media Video\0"
+    var componentName: String = "krad.tv - morsel\0"
     
     static func with(sampleType: AVSampleType) -> HDLR {
         var hdlr = HDLR()
         
         if sampleType == .video {
-            hdlr.componentName    = "Core Media Video\0"
+            hdlr.componentName    = "krad - morsel - video\0"
             hdlr.componentSubtype = .video
         } else {
-            hdlr.componentName    = "Core Media Audio\0"
+            hdlr.componentName    = "krad - morsel - audio\0"
             hdlr.componentSubtype = .sound
         }
         
