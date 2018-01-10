@@ -8,8 +8,13 @@ struct AVCC: BinarySizedEncodable {
     var profileCompatibility: UInt8 = 0
     var levelIndication: UInt8 = 30
     
-    var naluSize: UInt8   = 3 // NALUnitLength field in the parameter set minus 1
-    var spsCount: UInt8   = 0xe1
+    // 5 bits reserved (all on)
+    // 2 bits NALUnitLength field in the parameter set minus 1; 0b11 = 3
+    var naluSize: UInt8   = 0b11111111
+    
+    // 3 bits revserved (all on)
+    // 5 bits sps count
+    var spsCount: UInt8   = 0b11100001
     var spsLength: UInt16 = 27
     
     var sps: [SPS] = [SPS(data: [0x27, 0x4d, 0x00, 0x1f, 0x89, 0x8b,
@@ -24,13 +29,14 @@ struct AVCC: BinarySizedEncodable {
     
     static func from(_ config: VideoSettings) -> AVCC {
         var avcc = AVCC()
-//        avcc.profile   = config.sps[0]
-        avcc.sps       = [SPS(data: config.sps)]
-        avcc.spsCount  = 1
-        avcc.spsLength = UInt16(config.sps.count)
-        avcc.pps       = [PPS(data: config.pps)]
-        avcc.ppsCount  = 1
-        avcc.ppsLength = UInt16(config.pps.count)
+        avcc.profile              = config.sps[1]
+        avcc.profileCompatibility = config.sps[2]
+        avcc.levelIndication      = config.sps[3]
+        avcc.sps                  = [SPS(data: config.sps)]
+        avcc.spsLength            = UInt16(config.sps.count)
+        avcc.pps                  = [PPS(data: config.pps)]
+        avcc.ppsCount             = 1
+        avcc.ppsLength            = UInt16(config.pps.count)
         return avcc
     }
     
