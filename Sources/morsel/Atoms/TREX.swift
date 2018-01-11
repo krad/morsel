@@ -16,7 +16,7 @@ struct TREX: BinarySizedEncodable {
     static func from(_ config: VideoSettings) -> TREX {
         var trex     = TREX()
         trex.trackID = 1
-        trex.sampleFlags = 0b1010000
+        trex.sampleFlags = 1010000
         return trex
     }
     
