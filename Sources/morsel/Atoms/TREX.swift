@@ -10,18 +10,20 @@ struct TREX: BinarySizedEncodable {
     var sampleDuration: UInt32         = 0
     var sampleSize: UInt32             = 0
     
-    var sampleFlags: SampleFlags = [.sampleIsDependedOn]
+    //var sampleFlags: SampleFlags = [.sampleIsDependedOn]
+    var sampleFlags: UInt32 = 0
     
     static func from(_ config: VideoSettings) -> TREX {
         var trex     = TREX()
         trex.trackID = 1
+        trex.sampleFlags = 0b1010000
         return trex
     }
     
     static func from(_ config: AudioSettings) -> TREX {
         var trex         = TREX()
         trex.trackID     = 2
-        trex.sampleFlags = []
+//        trex.sampleFlags = []
         return trex
     }
 

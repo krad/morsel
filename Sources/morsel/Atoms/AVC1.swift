@@ -14,8 +14,8 @@ struct AVC1: BinarySizedEncodable {
     
     var width: UInt16 = 1281
     var height: UInt16 = 721
-    var horizontalResolution: UInt32 = 4718592
-    var verticalResolution: UInt32 = 4718592
+    var horizontalResolution: Double    = 72
+    var verticalResolution: Double      = 72
     
     var dataSize: UInt32 = 0
     var frameCount: UInt16 = 1
@@ -26,7 +26,6 @@ struct AVC1: BinarySizedEncodable {
                             0, 0, 0, 0, 0, 0, 0]
     
     var depth: Int16 = 24
-//    var colorTableID: UInt16 = 65535
     var colorTableID: Int16 = -1
 
     var avcC: [AVCC] = [AVCC()]
