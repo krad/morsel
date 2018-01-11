@@ -14,9 +14,9 @@ struct AVC1: BinarySizedEncodable {
     
     var width: UInt16 = 1281
     var height: UInt16 = 721
-    var horizontalResolution: Double    = 72
-    var verticalResolution: Double      = 72
-    
+    var horizontalResolution: UInt32 = 4718592
+    var verticalResolution: UInt32   = 4718592
+
     var dataSize: UInt32 = 0
     var frameCount: UInt16 = 1
     var compressorNameSize: UInt8 = 0
