@@ -25,11 +25,12 @@ struct AVC1: BinarySizedEncodable {
                             0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0]
     
-    var depth: UInt16 = 24
-    var colorTableID: UInt16 = 65535
+    var depth: Int16 = 24
+//    var colorTableID: UInt16 = 65535
+    var colorTableID: Int16 = -1
 
     var avcC: [AVCC] = [AVCC()]
-//    var colr: [COLR] = [COLR()]
+    var colr: [COLR] = [COLR()]
     var pasp: [PASP] = [PASP()]
     
     static func from(_ config: VideoSettings) -> AVC1 {
