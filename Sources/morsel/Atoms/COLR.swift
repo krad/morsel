@@ -5,9 +5,9 @@ struct COLR: BinarySizedEncodable {
     let type: Atom = .colr
     var colorParameter: ColorParameter = .videoBMFF
     
-    var primariesIndex: UInt16 = 6
+    var primariesIndex: UInt16 = 1
     var transferFunctionIndex: UInt16 = 1
-    var matrixIndex: UInt16 = 6
+    var matrixIndex: UInt16 = 1
     
     var unknown: UInt8 = 0
 }
