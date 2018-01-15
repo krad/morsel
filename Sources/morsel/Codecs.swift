@@ -25,7 +25,7 @@ enum VideoCodec: Codec {
     var name: String {
         switch self {
         case .h264(let profile, let constraint , let level):
-            let params = [profile.rawValue, constraint, level].map { String(format:"%02x", $0) }.joined()
+            let params = [profile.rawValue, constraint, level].map { String(format:"%02X", $0) }.joined()
             return "avc1.\(params)"
         }
     }

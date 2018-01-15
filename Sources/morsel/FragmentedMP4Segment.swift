@@ -1,6 +1,12 @@
 import Foundation
 
-class FragmentedMP4Segment {
+internal protocol Segment {
+    var url: URL { get }
+    var duration: Double { get }
+    var isIndex: Bool { get }
+}
+
+internal class FragmentedMP4Segment {
     
     var file: URL
     var fileHandle: FileHandle

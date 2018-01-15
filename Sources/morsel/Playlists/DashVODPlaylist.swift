@@ -1,12 +1,12 @@
 import Foundation
 import AEXML
 
-class DashVODPlaylist {
+struct DashVODPlaylist {
     
     private var document: AEXMLDocument
     private var mpd: AEXMLElement
     
-    init() {
+    init(_ representation: Representation) {
         self.document = AEXMLDocument()
         let mpdAttrs = ["xmlns": "urn:mpeg:dash:schema:mpd:2011",
                         "profiles": "urn:mpeg:dash:profile:full:2011",
@@ -22,16 +22,21 @@ class DashVODPlaylist {
                                             value: nil,
                                             attributes: ["mimeType":"video/mp4"])
         
-        let representation = adaptationSet.addChild(name: "Representation",
+        let rep = adaptationSet.addChild(name: "Representation",
                                                     value: nil,
                                                     attributes: ["id":"base",
                                                                  "bandwidth": "80000",
-                                                                 "width": "480",
-                                                                 "height": "640"])
+                                                                 "width": String(representation.videoSettings!.width),
+                                                                 "height": String(representation.videoSettings!.height)])
         
-        let segmentList = representation.addChild(name: "SegmentList",
-                                                  value: nil,
-                                                  attributes: ["timescale":"44100"])
+        let segmentList = rep.addChild(name: "SegmentList",
+                                       value: nil,
+                                       attributes: ["timescale": String(representation.videoSettings!.timescale),
+                                                    "duration": String(representation.duration)])
+        
+        for segment in representation.segments {
+            segmentList.addChild(name: "SegmentURL", value: nil, attributes: ["media": segment.url.lastPathComponent])
+        }
     }
     
     func show() {

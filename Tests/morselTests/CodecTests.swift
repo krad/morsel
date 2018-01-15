@@ -14,19 +14,19 @@ class CodecTests: XCTestCase {
         
         let c1 = VideoCodec.parse("avc1.42001e")
         XCTAssertNotNil(c1)
-        XCTAssertEqual(c1?.name, "avc1.42001e")
+        XCTAssertEqual(c1?.name, "avc1.42001E")
 
         let c2 = VideoCodec.parse("avc1.42001f")
         XCTAssertNotNil(c2)
-        XCTAssertEqual(c2?.name, "avc1.42001f")
+        XCTAssertEqual(c2?.name, "avc1.42001F")
         
         let c3 = VideoCodec.parse("avc1.4d001f")
         XCTAssertNotNil(c3)
-        XCTAssertEqual(c3?.name, "avc1.4d001f")
+        XCTAssertEqual(c3?.name, "avc1.4D001F")
         
         let c4 = VideoCodec.parse("avc1.4d0029")
         XCTAssertNotNil(c4)
-        XCTAssertEqual(c4?.name, "avc1.4d0029")
+        XCTAssertEqual(c4?.name, "avc1.4D0029")
         
     }
     
