@@ -32,7 +32,7 @@ struct DashVODPlaylist {
         let segmentList = rep.addChild(name: "SegmentList",
                                        value: nil,
                                        attributes: ["timescale": String(representation.videoSettings!.timescale),
-                                                    "duration": String(representation.duration)])
+                                                    "duration": String(Int64(representation.duration))])
         
         for segment in representation.segments {
             segmentList.addChild(name: "SegmentURL", value: nil, attributes: ["media": segment.url.lastPathComponent])

@@ -22,33 +22,27 @@ class StreamSegmenterTests: XCTestCase {
         var moofExp: XCTestExpectation?
 
         var initSegNum: Int = 0
-        var initSegURL: URL?
         var discont: Bool = false
         
         var newSegNum: Int = 0
-        var newSegURL: URL?
         var newSegSeqNum: Int = 0
         
         var moofSeqNum: Int = 0
         var moofSamples: [VideoSample] = []
         
         func writeInitSegment(with config: MOOVConfig,
-                              to url: URL,
                               segmentNumber: Int,
                               isDiscontinuity: Bool)
         {
-            self.initSegURL = url
             self.initSegNum = segmentNumber
             self.discont    = isDiscontinuity
             self.initExp?.fulfill()
         }
         
         func createNewSegment(with config: MOOVConfig,
-                              to url: URL,
                               segmentNumber: Int,
                               sequenceNumber: Int)
         {
-            self.newSegURL    = url
             self.newSegNum    = segmentNumber
             self.newSegSeqNum = sequenceNumber
             self.newSegExp?.fulfill()
@@ -66,8 +60,7 @@ class StreamSegmenterTests: XCTestCase {
         if let url = URL(string: NSTemporaryDirectory()) {
         
             let delegate = MockDelegate()
-            let subject  = try? StreamSegmenter(outputDir: url,
-                                                targetSegmentDuration: 10.0,
+            let subject  = try? StreamSegmenter(targetSegmentDuration: 10.0,
                                                 streamType: [.video],
                                                 delegate: delegate)
             XCTAssertNotNil(subject)
@@ -89,8 +82,6 @@ class StreamSegmenterTests: XCTestCase {
             XCTAssertEqual(delegate.initSegNum,   0)
             XCTAssertEqual(delegate.newSegNum,    1)
             XCTAssertEqual(delegate.newSegSeqNum, 1)
-            XCTAssertEqual(delegate.initSegURL?.path.split(separator: "/").last, "fileSeq0.mp4")
-            XCTAssertEqual(delegate.newSegURL?.path.split(separator: "/").last, "fileSeq1.mp4")
             XCTAssertFalse(delegate.discont)
             
             /// MOOF signaled by adding a keyframe
@@ -120,8 +111,6 @@ class StreamSegmenterTests: XCTestCase {
             XCTAssertEqual(delegate.initSegNum, 2)
             XCTAssertEqual(delegate.newSegNum,  3)
             XCTAssertEqual(delegate.moofSeqNum, 3)
-            XCTAssertEqual(delegate.initSegURL?.path.split(separator: "/").last, "fileSeq2.mp4")
-            XCTAssertEqual(delegate.newSegURL?.path.split(separator: "/").last, "fileSeq3.mp4")
 
             XCTAssertEqual(2, delegate.moofSamples.count)
             

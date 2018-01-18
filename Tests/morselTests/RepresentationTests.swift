@@ -37,16 +37,25 @@ func mockRepresentation() -> Representation {
     let dimensions = VideoDimensions(width: 640, height: 480)
     let settings   = VideoSettings(params: [sps, pps], dimensions: dimensions, timescale: 30000)
     
-    let representation = Representation(name: "testRep", videoSettings: settings)
+    let representation = Representation(name: "testRep", videoSettings: settings, targetDuration: 5.0)
 
     return representation
 }
 
 func addDummySegments(to representation: Representation, count: Int) {
-    for _ in 0..<count {
-        let segment = DummySegment(url: URL(fileURLWithPath: NSTemporaryDirectory()),
+    for i in 0..<count {
+        
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("fileSeq\(i).mp4")
+        
+        let segment = DummySegment(url: url,
                                    duration: 1000,
                                    isIndex: false)
         representation.add(segment: segment)
     }
+}
+
+func mockRepresentationFilled() -> Representation {
+    let representation = mockRepresentation()
+    addDummySegments(to: representation, count: 10)
+    return representation
 }
