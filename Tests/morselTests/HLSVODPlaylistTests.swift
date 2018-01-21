@@ -76,8 +76,8 @@ fileSeq1.mp4
         let file3Seg = DummySegment(url: file3, duration: 5.3002, isIndex: false)
         representation.add(segment: file3Seg)
 
-        let e4 =
-        """
+let e4 =
+"""
 #EXTM3U
 #EXT-X-TARGETDURATION:5
 #EXT-X-VERSION:7

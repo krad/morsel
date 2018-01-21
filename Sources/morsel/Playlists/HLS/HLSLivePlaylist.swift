@@ -1,64 +1,89 @@
 import Foundation
 
-class HLSLivePlayerWriter: PlaylistWriter {
+class HLSLivePlaylist: Playlist {
     
-    var segments: [(String, Float64, Int)] = []
-    private var header: String = ""
-    private var numberOfSegments: Int
-    private var targetDuration: Double = 0
-    private var currentMediaSequence: Int = 1
-    
-    
-    init(numberOfSegments: Int = 6) {
-        self.numberOfSegments = numberOfSegments
+    var type: PlaylistType = .hls_live
+    internal var representation: Representation?
+    internal var fileName: String
+
+    required init(fileName: String) {
+        self.fileName = fileName
     }
     
-    func positionToSeek() -> UInt64? {
-        return 0
-    }
-    
-    func header(with targetDuration: Double) -> String {
-        self.targetDuration = targetDuration
-        self.header = [
-            "#EXTM3U",
-            "#EXT-X-TARGETDURATION:\(Int64(targetDuration))",
-            "#EXT-X-VERSION:7",
-            "#EXT-X-MEDIA-SEQUENCE:\(currentMediaSequence)",
-            "#EXT-X-PLAYLIST-TYPE:LIVE",
-            "#EXT-X-INDEPENDENT-SEGMENTS",
-            "#EXT-X-MAP:URI=\"fileSeq0.mp4\"\n"
-            ].joined(separator: "\n")
-        return self.header
-    }
-    
-    func writeSegment(with filename: String,
-                      duration: Float64,
-                      and firstMediaSequence: Int) -> String {
+    var output: String {
+        guard let representation = self.representation,
+              representation.segments.count > 0 else { return "" }
         
-        if segments.count == self.numberOfSegments {
-            self.segments.removeFirst(1)
-            if let firstSegment = self.segments.first {
-                self.currentMediaSequence = firstSegment.2
+        var firstInitSegmentWrote = false
+
+        let segments: [String] = self.getLastSegments(in: representation).map {
+            if $0.isIndex {
+                let initStr = "#EXT-X-MAP-URI=\"\($0.url.lastPathComponent)\""
+                if firstInitSegmentWrote {
+                    return "#EXT-X-DISCONTINUITY\n\(initStr)"
+                }
+                else {
+                    firstInitSegmentWrote = true
+                    return initStr
+                }
+            } else {
+                return "#EXTINF:\($0.duration),\n\($0.url.lastPathComponent)"
             }
         }
         
-        self.segments.append((filename, duration, firstMediaSequence))
-        
-        let segmentsSection = self.segments.map { entry in
-            segmentEntry(fileName: entry.0, duration: entry.1)
-        }.joined(separator: "\n") + "\n"
-        
-        let headerSection = self.header(with: self.targetDuration)
-        
-        return headerSection + segmentsSection
-    }
-        
-    func end() -> String {
-        return ""
+        return (header + segments).joined(separator: "\n")
     }
     
-}
-
-func segmentEntry(fileName: String, duration: Double) -> String {
-    return "#EXTINF:\(duration),\n\(fileName)"
+    private var header: [String] {
+        guard let representation = self.representation else { return [] }
+        
+        return [
+            "#EXTM3U",
+            "#EXT-X-TARGETDURATION:\(Int64(representation.targetDuration))",
+            "#EXT-X-VERSION:7",
+            "#EXT-X-MEDIA_SEQUENCE:1",
+            "#EXT-X-PLAYLIST-TYPE:\(self.type.rawValue)",
+            "#EXT-X-INDEPENDENT-SEGMENTS"]
+    }
+    
+    private func getLastSegments(in representation: Representation) -> [Segment] {
+        var result: [Segment] = []
+        
+        let segmentIndices: [Segment] = representation.segments.filter { $0.isIndex == true }
+        let lastSegments: [Segment]   = Array(representation.segments.suffix(3))
+        
+        let segmentsContainIndex: Bool = (lastSegments.filter { $0.isIndex == true }.count > 0)
+        
+        if segmentsContainIndex {
+            if let lastIndex = segmentIndices.last {
+                if let firstIndex = segmentIndices.dropLast().last {
+                    if lastIndex == firstIndex {
+                        result = [lastIndex] + lastSegments
+                    } else {
+                        if let firstLastSegment = lastSegments.first {
+                            if firstLastSegment.isIndex {
+                                result = lastSegments
+                            } else {
+                                result = [firstIndex] + lastSegments
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if result.count == 0 {
+                result = lastSegments
+            }
+            
+        } else {
+            if let lastIndex = segmentIndices.last {
+                result = [lastIndex] + lastSegments
+            } else {
+                result = lastSegments
+            }
+        }
+        
+        return result
+    }
+    
 }

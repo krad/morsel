@@ -6,6 +6,10 @@ internal protocol Segment {
     var isIndex: Bool { get }
 }
 
+func ==(lhs: Segment, rhs: Segment) -> Bool {
+    return lhs.url == rhs.url
+}
+
 internal class FragmentedMP4Segment {
     
     var file: URL
