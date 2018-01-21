@@ -2,8 +2,8 @@ import Foundation
 
 class HLSVODPlaylist: Playlist {
 
-    var representation: Representation?
     var type: PlaylistType = .hls_vod
+    internal var representation: Representation?
     internal var fileName: String
     
     required init(fileName: String) {
@@ -49,6 +49,6 @@ class HLSVODPlaylist: Playlist {
     private var endTag: [String] {
         return ["#EXT-X-ENDLIST\n"]
     }
-
+    
 }
 
