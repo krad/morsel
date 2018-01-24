@@ -22,6 +22,8 @@ public class FragmentedMP4Writer {
     
     private var delegate: FragmentedMP4WriterDelegate?
     private(set) var outputDir: URL
+    
+    private var representation: Representation
 
     
     /// Create a new writer
@@ -48,12 +50,15 @@ public class FragmentedMP4Writer {
             if !isDir.boolValue { throw FragmentedMP4WriterError.fileNotDirectory }
         #endif
         
-        self.outputDir = outputDir
-        self.segmenter  = try StreamSegmenter(targetSegmentDuration: targetDuration,
-                                              streamType: streamType,
-                                              delegate: self)
+        self.outputDir      = outputDir
+        self.representation = Representation(name: "base",
+                                             targetDuration: targetDuration)
         
-        self.delegate = delegate
+        self.segmenter      = try StreamSegmenter(targetSegmentDuration: targetDuration,
+                                                  streamType: streamType,
+                                                  delegate: self)
+        
+        self.delegate       = delegate
     }
     
     

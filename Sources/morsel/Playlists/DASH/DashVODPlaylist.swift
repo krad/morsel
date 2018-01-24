@@ -26,12 +26,14 @@ struct DashVODPlaylist {
                                                     value: nil,
                                                     attributes: ["id":"base",
                                                                  "bandwidth": "80000",
-                                                                 "width": String(representation.videoSettings!.width),
-                                                                 "height": String(representation.videoSettings!.height)])
+//                                                                 "width": String(representation.videoSettings!.width),
+//                                                                 "height": String(representation.videoSettings!.height)
+            ])
         
         let segmentList = rep.addChild(name: "SegmentList",
                                        value: nil,
-                                       attributes: ["timescale": String(representation.videoSettings!.timescale),
+                                       attributes: [
+//                                        "timescale": String(representation.?videoSettings!.timescale),
                                                     "duration": String(Int64(representation.duration))])
         
         for segment in representation.segments {

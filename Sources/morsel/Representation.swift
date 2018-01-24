@@ -12,24 +12,27 @@ internal class Representation {
     var videoSettings: VideoSettings?
     let targetDuration: Double
     
+    internal private(set) var segments: [Segment] = []
+    internal private(set) var playlists: [PlaylistWriter] = []
+    
     var duration: Double {
         return self.segments.reduce(0) { cnt, segment in cnt + segment.duration }
     }
     
-    internal private(set) var segments: [Segment] = []
-
     internal init(name: String,
-                  videoSettings: VideoSettings?,
                   targetDuration: Double)
     {
         self.name           = name
-        self.state          = .starting
-        self.videoSettings  = videoSettings
         self.targetDuration = targetDuration
+        self.state          = .starting
     }
     
     internal func add(segment: Segment) {
         self.segments.append(segment)
+    }
+    
+    internal func add(writer: PlaylistWriter) {
+        self.playlists.append(writer)
     }
     
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-class HLSLivePlaylist: Playlist {
+class HLSLivePlaylist: PlaylistGenerator {
     
     var type: PlaylistType = .hls_live
     internal var representation: Representation?

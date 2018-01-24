@@ -1,6 +1,6 @@
 import Foundation
 
-class HLSVODPlaylist: Playlist {
+class HLSVODPlaylist: PlaylistGenerator {
 
     var type: PlaylistType = .hls_vod
     internal var representation: Representation?

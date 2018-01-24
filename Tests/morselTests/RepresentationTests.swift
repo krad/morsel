@@ -10,7 +10,11 @@ struct DummySegment: Segment {
 class RepresentationTests: XCTestCase {
 
     func test_basic_object_behavior() {
+        
         let representation = mockRepresentation()
+        let settings       = mockVideoSettings()
+        representation.videoSettings = settings
+        
         XCTAssertNotNil(representation)
         XCTAssertEqual("avc1.42001E", representation.videoSettings?.codec)
         XCTAssertEqual(640, representation.videoSettings?.width)
@@ -25,9 +29,16 @@ class RepresentationTests: XCTestCase {
         XCTAssertEqual(10_000, representation.duration)
     }
     
+    func test_adding_playlist_writer() {
+        
+        let representation = mockRepresentation()
+        
+        
+    }
+    
 }
 
-func mockRepresentation() -> Representation {
+func mockVideoSettings() -> VideoSettings {
     let sps: [UInt8] = [66, 0, 30, 137, 139, 96, 80, 30, 216,
                         8, 96, 96, 0, 187, 128, 0, 46, 224, 189,
                         239, 131, 225, 16, 141, 192]
@@ -36,9 +47,13 @@ func mockRepresentation() -> Representation {
     
     let dimensions = VideoDimensions(width: 640, height: 480)
     let settings   = VideoSettings(params: [sps, pps], dimensions: dimensions, timescale: 30000)
-    
-    let representation = Representation(name: "testRep", videoSettings: settings, targetDuration: 5.0)
 
+    return settings
+}
+
+func mockRepresentation() -> Representation {
+    let representation = Representation(name: "testRep",
+                                        targetDuration: 5.0)
     return representation
 }
 
