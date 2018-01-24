@@ -3,6 +3,12 @@ import Foundation
 public struct Playlist {
     public let type: PlaylistType
     public let fileName: String
+    
+    public init(type: PlaylistType, fileName: String) {
+        self.type     = type
+        self.fileName = fileName
+    }
+    
 }
 
 public enum PlaylistType: String {

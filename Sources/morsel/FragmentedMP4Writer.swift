@@ -108,7 +108,7 @@ public class FragmentedMP4Writer {
 
 // MARK: Playlist management
     
-    func add(playlist: Playlist) throws {
+    public func add(playlist: Playlist) throws {
         do {
             let writer = try PlaylistWriter(baseURL: self.outputDir,
                                             playlist: playlist,
