@@ -13,7 +13,10 @@ class HLSVODPlaylistTests: XCTestCase {
         
         let baseURL        = URL(fileURLWithPath: NSTemporaryDirectory())
         let initSegmentURL = baseURL.appendingPathComponent("fileSeq0.mp4")
-        let initSegment    = DummySegment(url: initSegmentURL, duration: 0, isIndex: true)
+        let initSegment    = DummySegment(url: initSegmentURL,
+                                          duration: 0,
+                                          isIndex: true,
+                                          firstMediaSequenceNumber: 0)
         representation.add(segment: initSegment)
 
         let e1 =
@@ -31,7 +34,10 @@ class HLSVODPlaylistTests: XCTestCase {
         XCTAssertEqual(e1, playlist.output)
         
         let file1 = baseURL.appendingPathComponent("fileSeq1.mp4")
-        let file1Seg = DummySegment(url: file1, duration: 5.0, isIndex: false)
+        let file1Seg = DummySegment(url: file1,
+                                    duration: 5.0,
+                                    isIndex: false,
+                                    firstMediaSequenceNumber: 1)
         representation.add(segment: file1Seg)
 
         let e2 =
@@ -51,7 +57,10 @@ fileSeq1.mp4
         XCTAssertEqual(e2, playlist.output)
 
         let file2 = baseURL.appendingPathComponent("fileSeq2.mp4")
-        let file2Seg = DummySegment(url: file2, duration: 5.0, isIndex: true)
+        let file2Seg = DummySegment(url: file2,
+                                    duration: 5.0,
+                                    isIndex: true,
+                                    firstMediaSequenceNumber: 2)
         representation.add(segment: file2Seg)
 
         let e3 =
@@ -73,7 +82,10 @@ fileSeq1.mp4
         XCTAssertEqual(e3, playlist.output)
         
         let file3 = baseURL.appendingPathComponent("fileSeq3.mp4")
-        let file3Seg = DummySegment(url: file3, duration: 5.3002, isIndex: false)
+        let file3Seg = DummySegment(url: file3,
+                                    duration: 5.3002,
+                                    isIndex: false,
+                                    firstMediaSequenceNumber: 3)
         representation.add(segment: file3Seg)
 
 let e4 =

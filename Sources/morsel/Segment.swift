@@ -3,6 +3,7 @@ import Foundation
 internal protocol Segment {
     var url: URL { get }
     var duration: Double { get }
+    var firstMediaSequenceNumber: Int { get }
     var isIndex: Bool { get }
 }
 

@@ -5,6 +5,7 @@ class FragementedMP4InitalizationSegment: Segment {
     var url: URL
     var duration: Double = 0.0
     var isIndex: Bool = true
+    var firstMediaSequenceNumber: Int = 0
     
     
     init(_ file: URL, config: MOOVConfig) throws {

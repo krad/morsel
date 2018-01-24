@@ -6,6 +6,8 @@ class HLSLivePlaylist: PlaylistGenerator {
     internal var representation: Representation?
     internal var fileName: String
 
+    internal var currentMediaSequence: Int = 1
+    
     required init(fileName: String) {
         self.fileName = fileName
     }
@@ -41,7 +43,7 @@ class HLSLivePlaylist: PlaylistGenerator {
             "#EXTM3U",
             "#EXT-X-TARGETDURATION:\(Int64(representation.targetDuration))",
             "#EXT-X-VERSION:7",
-            "#EXT-X-MEDIA_SEQUENCE:1",
+            "#EXT-X-MEDIA_SEQUENCE:\(self.currentMediaSequence)",
             "#EXT-X-PLAYLIST-TYPE:\(self.type.rawValue)",
             "#EXT-X-INDEPENDENT-SEGMENTS"]
     }
@@ -51,6 +53,13 @@ class HLSLivePlaylist: PlaylistGenerator {
         
         let segmentIndices: [Segment] = representation.segments.filter { $0.isIndex == true }
         let lastSegments: [Segment]   = Array(representation.segments.suffix(3))
+        
+        for segment in lastSegments {
+            if !segment.isIndex {
+                self.currentMediaSequence = segment.firstMediaSequenceNumber
+                break
+            }
+        }
         
         let segmentsContainIndex: Bool = (lastSegments.filter { $0.isIndex == true }.count > 0)
         

@@ -5,6 +5,7 @@ struct DummySegment: Segment {
     var url: URL
     var duration: Double
     var isIndex: Bool = false
+    var firstMediaSequenceNumber: Int
 }
 
 class RepresentationTests: XCTestCase {
@@ -132,7 +133,8 @@ func addDummySegments(to representation: Representation, count: Int) {
         
         let segment = DummySegment(url: url,
                                    duration: 1000,
-                                   isIndex: false)
+                                   isIndex: false,
+                                   firstMediaSequenceNumber: i)
         representation.add(segment: segment)
     }
 }

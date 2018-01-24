@@ -13,7 +13,10 @@ class HLSLivePlaylistTests: XCTestCase {
 
         let baseURL        = URL(fileURLWithPath: NSTemporaryDirectory())
         let initSegmentURL = baseURL.appendingPathComponent("fileSeq0.mp4")
-        let initSegment    = DummySegment(url: initSegmentURL, duration: 0, isIndex: true)
+        let initSegment    = DummySegment(url: initSegmentURL,
+                                          duration: 0,
+                                          isIndex: true,
+                                          firstMediaSequenceNumber: 0)
         representation.add(segment: initSegment)
         
         let e1 =
@@ -30,7 +33,10 @@ class HLSLivePlaylistTests: XCTestCase {
 
         for i in 1...3 {
             let file = baseURL.appendingPathComponent("fileSeq\(i).mp4")
-            let segment = DummySegment(url: file, duration: 5.0, isIndex: false)
+            let segment = DummySegment(url: file,
+                                       duration: 5.0,
+                                       isIndex: false,
+                                       firstMediaSequenceNumber: i)
             representation.add(segment: segment)
         }
 
@@ -53,7 +59,10 @@ fileSeq3.mp4
         XCTAssertEqual(e2, playlist.output)
 
         let file4       = baseURL.appendingPathComponent("fileSeq4.mp4")
-        let segment4    = DummySegment(url: file4, duration: 5.0, isIndex: false)
+        let segment4    = DummySegment(url: file4,
+                                       duration: 5.0,
+                                       isIndex: false,
+                                       firstMediaSequenceNumber: 4)
         representation.add(segment: segment4)
 
         let e3 =
@@ -61,7 +70,7 @@ fileSeq3.mp4
 #EXTM3U
 #EXT-X-TARGETDURATION:5
 #EXT-X-VERSION:7
-#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-MEDIA_SEQUENCE:2
 #EXT-X-PLAYLIST-TYPE:LIVE
 #EXT-X-INDEPENDENT-SEGMENTS
 #EXT-X-MAP:URI="fileSeq0.mp4"
@@ -76,7 +85,10 @@ fileSeq4.mp4
 
         for i in 5...6  {
             let file = baseURL.appendingPathComponent("fileSeq\(i).mp4")
-            let segment = DummySegment(url: file, duration: 5.0, isIndex: false)
+            let segment = DummySegment(url: file,
+                                       duration: 5.0,
+                                       isIndex: false,
+                                       firstMediaSequenceNumber: i)
             representation.add(segment: segment)
         }
         
@@ -85,7 +97,7 @@ fileSeq4.mp4
 #EXTM3U
 #EXT-X-TARGETDURATION:5
 #EXT-X-VERSION:7
-#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-MEDIA_SEQUENCE:4
 #EXT-X-PLAYLIST-TYPE:LIVE
 #EXT-X-INDEPENDENT-SEGMENTS
 #EXT-X-MAP:URI="fileSeq0.mp4"
@@ -99,11 +111,17 @@ fileSeq6.mp4
         XCTAssertEqual(e4, playlist.output)
 
         let discont2    = baseURL.appendingPathComponent("fileSeq7.mp4")
-        let discontSeg2 = DummySegment(url: discont2, duration: 0, isIndex: true)
+        let discontSeg2 = DummySegment(url: discont2,
+                                       duration: 0,
+                                       isIndex: true,
+                                       firstMediaSequenceNumber: 0)
         representation.add(segment: discontSeg2)
         
         let file8       = baseURL.appendingPathComponent("fileSeq8.mp4")
-        let segment8    = DummySegment(url: file8, duration: 5.0, isIndex: false)
+        let segment8    = DummySegment(url: file8,
+                                       duration: 5.0,
+                                       isIndex: false,
+                                       firstMediaSequenceNumber: 8)
         representation.add(segment: segment8)
         
         let e5 =
@@ -111,7 +129,7 @@ fileSeq6.mp4
 #EXTM3U
 #EXT-X-TARGETDURATION:5
 #EXT-X-VERSION:7
-#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-MEDIA_SEQUENCE:6
 #EXT-X-PLAYLIST-TYPE:LIVE
 #EXT-X-INDEPENDENT-SEGMENTS
 #EXT-X-MAP:URI="fileSeq0.mp4"
@@ -125,7 +143,10 @@ fileSeq8.mp4
         XCTAssertEqual(e5, playlist.output)
         
         let file9       = baseURL.appendingPathComponent("fileSeq9.mp4")
-        let segment9    = DummySegment(url: file9, duration: 5.0, isIndex: false)
+        let segment9    = DummySegment(url: file9,
+                                       duration: 5.0,
+                                       isIndex: false,
+                                       firstMediaSequenceNumber: 9)
         representation.add(segment: segment9)
 
         let e6 =
@@ -133,7 +154,7 @@ fileSeq8.mp4
 #EXTM3U
 #EXT-X-TARGETDURATION:5
 #EXT-X-VERSION:7
-#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-MEDIA_SEQUENCE:8
 #EXT-X-PLAYLIST-TYPE:LIVE
 #EXT-X-INDEPENDENT-SEGMENTS
 #EXT-X-MAP:URI="fileSeq7.mp4"

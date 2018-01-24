@@ -18,7 +18,10 @@ class PlaylistWriterTests: XCTestCase {
         XCTAssertEqual("", fileContents)
         
         let initSegmentURL = baseURL.appendingPathComponent("fileSeq0.mp4")
-        let initSegment    = DummySegment(url: initSegmentURL, duration: 0, isIndex: true)
+        let initSegment    = DummySegment(url: initSegmentURL,
+                                          duration: 0,
+                                          isIndex: true,
+                                          firstMediaSequenceNumber: 0)
         representation.add(segment: initSegment)
 
         writer?.update()
@@ -38,7 +41,10 @@ class PlaylistWriterTests: XCTestCase {
         XCTAssertEqual(e1, fileContents)
         
         let fileURL1        = baseURL.appendingPathComponent("fileSeq1.mp4")
-        let fileSegment1    = DummySegment(url: fileURL1, duration: 5.0, isIndex: false)
+        let fileSegment1    = DummySegment(url: fileURL1,
+                                           duration: 5.0,
+                                           isIndex: false,
+                                           firstMediaSequenceNumber: 1)
         representation.add(segment: fileSegment1)
         
         writer?.update()

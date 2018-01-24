@@ -31,10 +31,8 @@ class HLSEventPlaylist: PlaylistGenerator {
         }
         
         var result = header + segments
-        if representation.state == .done {
-            result += endTag
-        }
-        
+        if representation.state == .done { result += endTag }
+
         return result.joined(separator: "\n")
     }
     
@@ -53,8 +51,5 @@ class HLSEventPlaylist: PlaylistGenerator {
     private var endTag: [String] {
         return ["#EXT-X-ENDLIST\n"]
     }
-    
-
-
     
 }
