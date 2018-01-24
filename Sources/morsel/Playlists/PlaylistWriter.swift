@@ -10,10 +10,12 @@ internal class PlaylistWriter {
     internal let playlistURL: URL
     internal var generator: PlaylistGenerator
     private let fileHandle: FileHandle
+    private var delegate: FileWriterDelegate?
     
     init(baseURL: URL,
          playlist: Playlist,
-         representation: Representation) throws
+         representation: Representation,
+         delegate: FileWriterDelegate? = nil) throws
     {
         self.playlist    = playlist
         self.playlistURL = baseURL.appendingPathComponent(playlist.fileName)
@@ -35,12 +37,14 @@ internal class PlaylistWriter {
         else { throw PlaylistError.couldNotOpenFileForWriting }
         
         self.generator.representation = representation
+        self.delegate = delegate
     }
     
     func update() {
         if let data = self.generator.output.data(using: .utf8) {
             self.fileHandle.truncateFile(atOffset: 0)
             self.fileHandle.write(data)
+            self.delegate?.updatedFile(at: self.playlistURL)
         }
     }
     

@@ -112,7 +112,8 @@ public class FragmentedMP4Writer {
         do {
             let writer = try PlaylistWriter(baseURL: self.outputDir,
                                             playlist: playlist,
-                                            representation: self.representation)
+                                            representation: self.representation,
+                                            delegate: delegate)
             
             self.representation.add(writer: writer)
         } catch let error {
@@ -124,8 +125,7 @@ public class FragmentedMP4Writer {
     
     /// Appends and end tag for now
     public func stop() {
-        //        self.playerListWriter.end()
-        //        self.delegate?.updatedFile(at: self.playerListWriter.file)
+        self.representation.state = .done
     }
     
 }
@@ -139,10 +139,12 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
                           isDiscontinuity: Bool)
     {
         let url = self.outputDir.appendingPathComponent("fileSeq\(segmentNumber).mp4")
-        _ = try? FragementedMP4InitalizationSegment(url, config: config)
-        
-//        if isDiscontinuity { self.playerListWriter.writeDiscontinuity(with: segmentNumber) }
-//        else               { self.playerListWriter.writerHeader() }
+        do {
+            let initSegment = try FragementedMP4InitalizationSegment(url, config: config)
+            self.representation.add(segment: initSegment)
+        } catch let error {
+            print("Could not write init segment #\(segmentNumber) - Error:", error)
+        }
         
         self.delegate?.wroteFile(at: url)
     }
@@ -152,9 +154,8 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
                           sequenceNumber: Int)
     {
         if let segment = self.currentSegment {
-//            self.playerListWriter.write(segment: segment)
-            self.delegate?.wroteFile(at: segment.file)
-//            self.delegate?.updatedFile(at: self.playerListWriter.file)
+            self.representation.add(segment: segment)
+            self.delegate?.wroteFile(at: segment.url)
         }
         
         let url = self.outputDir.appendingPathComponent("fileSeq\(segmentNumber).mp4")
