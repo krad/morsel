@@ -17,7 +17,7 @@ class HLSEventPlaylist: PlaylistGenerator {
 
         let segments: [String] = representation.segments.map {
             if $0.isIndex {
-                let initStr = "#EXT-X-MAP-URI=\"\($0.url.lastPathComponent)\""
+                let initStr = "#EXT-X-MAP:URI=\"\($0.url.lastPathComponent)\""
                 if firstInitSegmentWrote {
                     return "#EXT-X-DISCONTINUITY\n\(initStr)"
                 }

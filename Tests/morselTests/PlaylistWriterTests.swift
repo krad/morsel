@@ -31,7 +31,7 @@ class PlaylistWriterTests: XCTestCase {
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 """
         
         fileContents = readFile(at: writer!.playlistURL)
@@ -51,7 +51,7 @@ class PlaylistWriterTests: XCTestCase {
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 """
@@ -70,7 +70,7 @@ fileSeq1.mp4
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 #EXT-X-ENDLIST

@@ -33,7 +33,7 @@ let e2 =
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 """
         XCTAssertEqual(e2, playlist.output)
         
@@ -49,7 +49,7 @@ let e3 =
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 """
@@ -67,11 +67,11 @@ let e4 =
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 #EXT-X-DISCONTINUITY
-#EXT-X-MAP-URI="fileSeq2.mp4"
+#EXT-X-MAP:URI="fileSeq2.mp4"
 """
         XCTAssertEqual(e4, playlist.output)
 
@@ -87,11 +87,11 @@ let e5 =
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 #EXT-X-DISCONTINUITY
-#EXT-X-MAP-URI="fileSeq2.mp4"
+#EXT-X-MAP:URI="fileSeq2.mp4"
 #EXTINF:5.3002,
 fileSeq3.mp4
 """
@@ -106,11 +106,11 @@ let e6 =
 #EXT-X-MEDIA_SEQUENCE:1
 #EXT-X-PLAYLIST-TYPE:EVENT
 #EXT-X-INDEPENDENT-SEGMENTS
-#EXT-X-MAP-URI="fileSeq0.mp4"
+#EXT-X-MAP:URI="fileSeq0.mp4"
 #EXTINF:5.0,
 fileSeq1.mp4
 #EXT-X-DISCONTINUITY
-#EXT-X-MAP-URI="fileSeq2.mp4"
+#EXT-X-MAP:URI="fileSeq2.mp4"
 #EXTINF:5.3002,
 fileSeq3.mp4
 #EXT-X-ENDLIST

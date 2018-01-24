@@ -18,7 +18,7 @@ class HLSLivePlaylist: PlaylistGenerator {
 
         let segments: [String] = self.getLastSegments(in: representation).map {
             if $0.isIndex {
-                let initStr = "#EXT-X-MAP-URI=\"\($0.url.lastPathComponent)\""
+                let initStr = "#EXT-X-MAP:URI=\"\($0.url.lastPathComponent)\""
                 if firstInitSegmentWrote {
                     return "#EXT-X-DISCONTINUITY\n\(initStr)"
                 }
