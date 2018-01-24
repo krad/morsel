@@ -1,0 +1,6 @@
+language: swift
+osx_image: xcode9
+xcode_project: morsel.xcodeproj
+script:
+  - swift build
+  - swift test
