@@ -29,11 +29,79 @@ class RepresentationTests: XCTestCase {
         XCTAssertEqual(10_000, representation.duration)
     }
     
-    func test_adding_playlist_writer() {
+    func test_adding_playlists() {
         
         let representation = mockRepresentation()
+        let baseURL        = URL(fileURLWithPath: NSTemporaryDirectory())
         
+        let vod_playlist    = Playlist(type: .hls_vod, fileName: UUID().uuidString)
+        let vodWriter       = try? PlaylistWriter(baseURL: baseURL,
+                                                  playlist: vod_playlist,
+                                                  representation: representation)
+
+        let event_playlist  = Playlist(type: .hls_event, fileName: UUID().uuidString)
+        let eventWriter     = try? PlaylistWriter(baseURL: baseURL,
+                                                  playlist: event_playlist,
+                                                  representation: representation)
         
+        XCTAssertNotNil(vodWriter)
+        XCTAssertNotNil(eventWriter)
+        
+        representation.add(writer: vodWriter!)
+        representation.add(writer: eventWriter!)
+        
+        /// Read the contents first
+        var fileContents = readFile(at: vodWriter!.playlistURL)
+        XCTAssertEqual("", fileContents)
+        
+        fileContents = readFile(at: eventWriter!.playlistURL)
+        XCTAssertEqual("", fileContents)
+        
+        /// Now add some dummy segments
+        addDummySegments(to: representation, count: 3)
+
+        /// Ensure the contents got updates
+        let e1 =
+"""
+#EXTM3U
+#EXT-X-TARGETDURATION:5
+#EXT-X-VERSION:7
+#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:1000.0,
+fileSeq0.mp4
+#EXTINF:1000.0,
+fileSeq1.mp4
+#EXTINF:1000.0,
+fileSeq2.mp4
+#EXT-X-ENDLIST
+
+"""
+        
+        fileContents = readFile(at: vodWriter!.playlistURL)
+        XCTAssertEqual(e1, fileContents)
+        
+        let e2 =
+"""
+#EXTM3U
+#EXT-X-TARGETDURATION:5
+#EXT-X-VERSION:7
+#EXT-X-MEDIA_SEQUENCE:1
+#EXT-X-PLAYLIST-TYPE:EVENT
+#EXT-X-INDEPENDENT-SEGMENTS
+#EXTINF:1000.0,
+fileSeq0.mp4
+#EXTINF:1000.0,
+fileSeq1.mp4
+#EXTINF:1000.0,
+fileSeq2.mp4
+"""
+        
+        fileContents = readFile(at: eventWriter!.playlistURL)
+        XCTAssertEqual(e2, fileContents)
+
+
     }
     
 }

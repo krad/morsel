@@ -28,7 +28,9 @@ internal class Representation {
     }
     
     internal func add(segment: Segment) {
+        self.state = .live
         self.segments.append(segment)
+        self.playlists.forEach { $0.update() }
     }
     
     internal func add(writer: PlaylistWriter) {

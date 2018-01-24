@@ -43,5 +43,9 @@ internal class PlaylistWriter {
             self.fileHandle.write(data)
         }
     }
+    
+    deinit {
+        self.fileHandle.closeFile()
+    }
         
 }

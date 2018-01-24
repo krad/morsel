@@ -1,15 +1,14 @@
 import Foundation
 
+// MARK: - Enum containing errors that can be thrown by the mp4 writer
+
 public enum FragmentedMP4WriterError: Error {
     case fileNotDirectory
     case directoryDoesNotExist
+    case couldNotAddPlaylist(error: Error)
 }
 
-public protocol FragmentedMP4WriterDelegate {
-    func wroteFile(at url: URL)
-    func updatedFile(at url: URL)
-}
-
+// MARK: - Fragmented MP4 Writer class
 
 /// A class that reads in audio and video samples and produces fragmented mp4's and playlists
 public class FragmentedMP4Writer {
@@ -20,25 +19,25 @@ public class FragmentedMP4Writer {
     fileprivate var segmenter: StreamSegmenter?
     fileprivate var currentSegment: FragmentedMP4Segment?
     
-    private var delegate: FragmentedMP4WriterDelegate?
+    private var delegate: FileWriterDelegate?
     private(set) var outputDir: URL
     
     private var representation: Representation
-
+    
+// MARK: Setup and Configuration methods
     
     /// Create a new writer
     ///
     /// - Parameters:
     ///   - outputDir: A URL on the local filesystem that playlists and fragmented mp4's should be written to
     ///   - targetDuration: The target duration that each segment should be
-    ///   - playlistType: Playlist type the writer should produce
     ///   - streamType: Type of stream that is being read.  eg: audio/video, video only, audio only
     ///   - delegate: Delegate that is notified when files are written or updated
     /// - Throws: Will throw errors if any problems with setup arise
     public init(_ outputDir: URL,
                 targetDuration: Double = 6,
                 streamType: AVStreamType = [.video, .audio],
-                delegate: FragmentedMP4WriterDelegate? = nil) throws
+                delegate: FileWriterDelegate? = nil) throws
     {
         /// Verify we have a directory to write to
         var isDir: ObjCBool = false
@@ -58,9 +57,8 @@ public class FragmentedMP4Writer {
                                                   streamType: streamType,
                                                   delegate: self)
         
-        self.delegate       = delegate
+        self.delegate = delegate
     }
-    
     
     /// Configure the writer with video settings.
     /// This happens after initial setup because a video source might not be known / available
@@ -70,7 +68,6 @@ public class FragmentedMP4Writer {
         self.segmenter?.videoSettings = settings
     }
     
-    
     /// Configure the writer with audio settings
     /// This happens after initial setup because an audio source might not be known / available
     ///
@@ -79,6 +76,7 @@ public class FragmentedMP4Writer {
         self.segmenter?.audioSettings = settings
     }
     
+// MARK: Adding content to the writer
     
     /// Append a sample for writing
     ///
@@ -90,12 +88,6 @@ public class FragmentedMP4Writer {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)
         }
-    }
-    
-    /// Appends and end tag for now
-    public func stop() {
-//        self.playerListWriter.end()
-//        self.delegate?.updatedFile(at: self.playerListWriter.file)
     }
     
     private func append(videoSample: Sample) {
@@ -114,7 +106,31 @@ public class FragmentedMP4Writer {
         self.audioDecodeCount += sample.duration
     }
 
+// MARK: Playlist management
+    
+    func add(playlist: Playlist) throws {
+        do {
+            let writer = try PlaylistWriter(baseURL: self.outputDir,
+                                            playlist: playlist,
+                                            representation: self.representation)
+            
+            self.representation.add(writer: writer)
+        } catch let error {
+            throw FragmentedMP4WriterError.couldNotAddPlaylist(error: error)
+        }
+    }
+
+// MARK: Controlling the state of the writer
+    
+    /// Appends and end tag for now
+    public func stop() {
+        //        self.playerListWriter.end()
+        //        self.delegate?.updatedFile(at: self.playerListWriter.file)
+    }
+    
 }
+
+// MARK: - StreamSegmenterDelegate implementation
 
 extension FragmentedMP4Writer: StreamSegmenterDelegate {
     
