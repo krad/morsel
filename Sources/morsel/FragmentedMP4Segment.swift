@@ -1,23 +1,23 @@
 import Foundation
 
-class FragmentedMP4Segment {
+
+internal class FragmentedMP4Segment: Segment {
     
-    var file: URL
+    var url: URL
     var fileHandle: FileHandle
+    var isIndex: Bool = false
     
     /// Current moof we're on
     var firstSequence: Int
     var duration: Double = 0.0
     
     private var config: MOOVConfig
-    private var samples: [Sample] = []
-    
     
     init(_ file: URL,
          config: MOOVConfig,
          firstSequence: Int) throws
     {
-        self.file     = file
+        self.url     = file
         self.config  = config
         
         if !FileManager.default.fileExists(atPath: file.path) {

@@ -39,6 +39,11 @@ public struct VideoDimensions {
         self.width  = UInt32(bytes: Array(data[1..<5]))!
         self.height = UInt32(bytes: Array(data[5..<data.count]))!
     }
+    
+    internal init(width: UInt32, height: UInt32) {
+        self.width  = width
+        self.height = height
+    }
 }
 
 public struct VideoSample: Sample {

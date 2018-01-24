@@ -14,12 +14,19 @@ public struct VideoSettings {
     var height: UInt32
     var timescale: UInt32 = 30000
     
+    var codec: String?
+    
     public init(params: [[UInt8]], dimensions: VideoDimensions, timescale: UInt32) {
         self.sps        = params.first == nil ? [] : params.first!
         self.pps        = params.last  == nil ? [] : params.last!
         self.width      = dimensions.width
         self.height     = dimensions.height
         self.timescale  = timescale
+        
+        if let profile = VideoCodecProfile(rawValue: sps[0]) {
+            let videoCodec = VideoCodec.h264(profile: profile, constraint: sps[1], level: sps[2])
+            self.codec     = videoCodec.name
+        }
     }
 }
 
