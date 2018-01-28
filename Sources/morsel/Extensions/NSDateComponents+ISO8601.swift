@@ -87,6 +87,33 @@ extension NSDateComponents {
     }
     
     
+    /// Used to build a DateComponent object from a duration and timescale
+    /// Meant to calculate duration from a/v timestamps
+    /// This currently only supports calculations into days.
+    //// Anything past a week gets rounded to days
+    ///
+    /// - Parameters:
+    ///   - value: Timestamp value
+    ///   - timescale: Timestamp scale
+    /// - Returns: DateComponents representation of rational timestamp
+    internal class func duration(from value: TimeInterval, timescale: UInt32) -> NSDateComponents {
+        let result = NSDateComponents()
+        
+        let pSeconds = Int(value / TimeInterval(timescale))
+        
+        let days    = (pSeconds / 86400) % 7
+        let hours   = (pSeconds / 3600) % 24
+        let minutes = (pSeconds / 60) % 60
+        let seconds = pSeconds % 60
+        
+        result.day        = days
+        result.hour       = hours
+        result.minute     = minutes
+        result.second     = seconds
+        return result
+    }
+    
+    
     /// Used to parse a ISO8601 Duration string
     ///
     /// - Parameter timeString: ISO8601 Duration string
@@ -137,7 +164,7 @@ extension NSDateComponents {
     
     private func strForUnit(unit: NSCalendar.Unit) -> String? {
         let value = self.value(forComponent: unit)
-        if value == Int.max { return nil }
+        if value == Int.max || value == 0 { return nil }
         switch unit {
         case .year:             return "\(value)Y"
         case .month, .minute:   return "\(value)M"

@@ -55,4 +55,45 @@ class ISO8601DurationTests: XCTestCase {
 
     }
     
+    func test_that_we_can_get_components_from_a_timeinterval() {
+        
+        let timescale: UInt32 = 30_000
+        let duration  = TimeInterval(timescale * 10)
+        let comps     = NSDateComponents.duration(from: duration, timescale: timescale)
+        XCTAssertNotNil(comps)
+        XCTAssertEqual(10, comps.second)
+        XCTAssertEqual("PT10S", comps.iso8601Duration)
+        
+        let duration2  = TimeInterval(timescale * (60 * 60))
+        let comps2     = NSDateComponents.duration(from: duration2, timescale: timescale)
+        XCTAssertNotNil(comps2)
+        XCTAssertEqual(1, comps2.hour)
+        XCTAssertEqual(0, comps2.minute)
+        XCTAssertEqual(0, comps2.second)
+        XCTAssertEqual("PT1H", comps2.iso8601Duration)
+
+        let duration3  = TimeInterval(timescale * ((60 * 60) * 24))
+        let comps3     = NSDateComponents.duration(from: duration3, timescale: timescale)
+        XCTAssertNotNil(comps3)
+        XCTAssertEqual(1, comps3.day)
+        XCTAssertEqual(0, comps3.hour)
+        XCTAssertEqual(0, comps3.minute)
+        XCTAssertEqual(0, comps3.second)
+        XCTAssertEqual("P1DT", comps3.iso8601Duration)
+
+        let thirtyMinutes = TimeInterval(timescale * (60 * 30))
+        let oneHour       = thirtyMinutes * 2
+        let twoDays       = oneHour * 48
+        let tenSeconds    = TimeInterval(timescale * 23)
+        let timeTest      = twoDays + oneHour + thirtyMinutes + tenSeconds
+        let comps4        = NSDateComponents.duration(from: timeTest, timescale: timescale)
+        XCTAssertNotNil(comps4)
+        XCTAssertEqual(2, comps4.day)
+        XCTAssertEqual(1, comps4.hour)
+        XCTAssertEqual(30, comps4.minute)
+        XCTAssertEqual(23, comps4.second)
+        XCTAssertEqual("P2DT1H30M23S", comps4.iso8601Duration)
+
+    }
+    
 }
