@@ -3,7 +3,7 @@ import XCTest
 
 struct DummySegment: Segment {
     var url: URL
-    var duration: Double
+    var duration: TimeInterval
     var isIndex: Bool = false
     var firstMediaSequenceNumber: Int
 }

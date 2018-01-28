@@ -3,7 +3,7 @@ import Foundation
 class FragementedMP4InitalizationSegment: Segment {
     
     var url: URL
-    var duration: Double = 0.0
+    var duration: TimeInterval = 0.0
     var isIndex: Bool = true
     var firstMediaSequenceNumber: Int = 0
     

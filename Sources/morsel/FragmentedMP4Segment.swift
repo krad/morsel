@@ -9,7 +9,7 @@ internal class FragmentedMP4Segment: Segment {
     
     /// Current moof we're on
     var firstMediaSequenceNumber: Int
-    var duration: Double = 0.0
+    var duration: TimeInterval = 0.0
     
     private var config: MOOVConfig
     
@@ -28,7 +28,7 @@ internal class FragmentedMP4Segment: Segment {
         self.firstMediaSequenceNumber   = firstSequence
     }
     
-    func write(_ samples: [Sample], duration: Double, sequenceNumber: Int) throws {
+    func write(_ samples: [Sample], duration: TimeInterval, sequenceNumber: Int) throws {
         self.duration += duration
         
         let moof = MOOF(config: self.config,

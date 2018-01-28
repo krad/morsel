@@ -48,7 +48,7 @@ class StreamSegmenterTests: XCTestCase {
             self.newSegExp?.fulfill()
         }
 
-        func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int) {
+        func writeMOOF(with samples: [Sample], duration: TimeInterval, sequenceNumber: Int) {
             self.moofSeqNum  = sequenceNumber
             self.moofSamples = samples as! [VideoSample]
             self.moofExp?.fulfill()
