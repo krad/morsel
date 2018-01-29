@@ -15,6 +15,7 @@ public enum PlaylistType: String {
     case hls_vod    = "VOD"
     case hls_live   = "LIVE"
     case hls_event  = "EVENT"
+    case dash_vod   = "static"
 }
 
 protocol PlaylistGenerator {

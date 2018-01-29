@@ -19,6 +19,13 @@ internal class Representation {
         return self.segments.reduce(0) { cnt, segment in cnt + segment.duration }
     }
     
+    var timescale: UInt32 {
+        if let settings = self.videoSettings {
+            return settings.timescale
+        }
+        return 0
+    }
+    
     internal init(name: String,
                   targetDuration: TimeInterval)
     {
