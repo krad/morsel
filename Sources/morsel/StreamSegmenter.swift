@@ -152,9 +152,7 @@ final internal class StreamSegmenter {
         let vDuration = vSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
         let aSamples  = self.vendAudioSamples(upTo: vDuration)
         
-        // We're gonna hit our target duration
-        // Cast to int so we can round up.  This helps ensure we don't go over.
-        if Int(vDuration + self.currentSegmentDuration) >= Int(self.targetSegmentDuration) {
+        if (vDuration + self.currentSegmentDuration) >= self.targetSegmentDuration {
             
             self.delegate?.writeMOOF(with: vSamples + aSamples,
                                      duration: vDuration,
