@@ -35,7 +35,7 @@ public class FragmentedMP4Writer {
     ///   - delegate: Delegate that is notified when files are written or updated
     /// - Throws: Will throw errors if any problems with setup arise
     public init(_ outputDir: URL,
-                targetDuration: Double = 6,
+                targetDuration: TimeInterval = 6,
                 streamType: AVStreamType = [.video, .audio],
                 delegate: FileWriterDelegate? = nil) throws
     {
@@ -92,7 +92,7 @@ public class FragmentedMP4Writer {
     
     private func append(videoSample: Sample) {
         var sample     = videoSample
-        sample.decode  = Double(self.videoDecodeCount)
+        sample.decode  = TimeInterval(self.videoDecodeCount)
         
         self.segmenter?.append(sample)
         self.videoDecodeCount += sample.duration
@@ -100,7 +100,7 @@ public class FragmentedMP4Writer {
     
     private func append(audioSample: Sample) {
         var sample    = audioSample
-        sample.decode = Double(self.audioDecodeCount)
+        sample.decode = TimeInterval(self.audioDecodeCount)
         
         self.segmenter?.append(sample)
         self.audioDecodeCount += sample.duration
@@ -164,7 +164,7 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
                                                         firstSequence: sequenceNumber)
     }
     
-    func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int) {
+    func writeMOOF(with samples: [Sample], duration: TimeInterval, sequenceNumber: Int) {
         try? self.currentSegment?.write(samples, duration: duration, sequenceNumber: sequenceNumber)
     }
     

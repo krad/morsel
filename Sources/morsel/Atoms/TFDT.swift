@@ -1,3 +1,5 @@
+import Foundation
+
 // Track Fragment Decode time
 struct TFDT: BinarySizedEncodable {
     
@@ -7,7 +9,7 @@ struct TFDT: BinarySizedEncodable {
     
     var baseMediaDecodeTime: UInt64 = 0
     
-    static func from(decode: Double) -> TFDT {
+    static func from(decode: TimeInterval) -> TFDT {
         var tfdt                   = TFDT()
         tfdt.baseMediaDecodeTime   = UInt64(decode)
         return tfdt

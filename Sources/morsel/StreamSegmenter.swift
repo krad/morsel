@@ -41,28 +41,28 @@ protocol StreamSegmenterDelegate {
                           segmentNumber: Int,
                           sequenceNumber: Int)
     
-    func writeMOOF(with samples: [Sample], duration: Double, sequenceNumber: Int)
+    func writeMOOF(with samples: [Sample], duration: TimeInterval, sequenceNumber: Int)
 }
 
 final internal class StreamSegmenter {
     
-    final internal let targetSegmentDuration: Double
+    final internal let targetSegmentDuration: TimeInterval
     final internal var streamType: AVStreamType
     
     final internal var currentSegment  = 0
     final internal var currentSequence = 1
     
     final internal var videoSamples: ThreadSafeArray<Sample>
-    final internal var videoSamplesDuration: Double {
+    final internal var videoSamplesDuration: TimeInterval {
         return self.videoSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
     
     final internal var audioSamples: ThreadSafeArray<Sample>
-    final internal var audioSamplesDuration: Double {
+    final internal var audioSamplesDuration: TimeInterval {
         return self.audioSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
     
-    final internal var currentSegmentDuration: Double = 0.0
+    final internal var currentSegmentDuration: TimeInterval = 0.0
 
     private var segmenterQ = DispatchQueue(label: "stream.segmenter.q")
     private var delegate: StreamSegmenterDelegate?
@@ -108,7 +108,7 @@ final internal class StreamSegmenter {
         return false
     }
 
-    init(targetSegmentDuration: Double,
+    init(targetSegmentDuration: TimeInterval,
          streamType: AVStreamType = [.video, .audio],
          delegate: StreamSegmenterDelegate? = nil) throws
     {
@@ -153,7 +153,8 @@ final internal class StreamSegmenter {
         let aSamples  = self.vendAudioSamples(upTo: vDuration)
         
         // We're gonna hit our target duration
-        if vDuration + self.currentSegmentDuration >= self.targetSegmentDuration {
+        // Cast to int so we can round up.  This helps ensure we don't go over.
+        if Int(vDuration + self.currentSegmentDuration) >= Int(self.targetSegmentDuration) {
             
             self.delegate?.writeMOOF(with: vSamples + aSamples,
                                      duration: vDuration,
@@ -195,10 +196,10 @@ final internal class StreamSegmenter {
         return results
     }
     
-    private func vendAudioSamples(upTo duration: Double) -> [Sample] {
+    private func vendAudioSamples(upTo duration: TimeInterval) -> [Sample] {
         var results: [Sample] = []
         
-        var bufferDuration: Double = 0.0
+        var bufferDuration: TimeInterval = 0.0
         for sample in self.audioSamples {
             bufferDuration += sample.durationInSeconds
             results.append(sample)

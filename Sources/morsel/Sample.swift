@@ -10,16 +10,16 @@ public protocol Sample {
     var data: [UInt8] { get }
     var size: UInt32 { get }
     var duration: Int64 { get }
-    var durationInSeconds: Double { get }
+    var durationInSeconds: TimeInterval { get }
     
-    var decode: Double { get set }
+    var decode: TimeInterval { get set }
     var timescale: UInt32 { get }
     var isSync: Bool { get }
 }
 
 extension Sample {
-    public var durationInSeconds: Double {
-        return Double(self.duration) / Double(self.timescale)
+    public var durationInSeconds: TimeInterval {
+        return TimeInterval(self.duration) / TimeInterval(self.timescale)
     }
 }
 
@@ -59,10 +59,10 @@ public struct VideoSample: Sample {
         return results
     }
     
-    public var duration: Int64          = 0
-    public var durationSeconds: Double  = 0
-    public var decode: Double           = 0
-    public var timescale: UInt32        = 0
+    public var duration: Int64                  = 0
+    public var durationSeconds: TimeInterval    = 0
+    public var decode: Double                   = 0
+    public var timescale: UInt32                = 0
     
     public var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
     
@@ -77,7 +77,7 @@ public struct VideoSample: Sample {
         self.earlierDisplayTimesAllowed = bytes[3].toBool()
         self.duration                   = Int64(bytes: Array(bytes[4..<12]))!
         self.timescale                  = UInt32(bytes: Array(bytes[12..<16]))!
-        self.durationSeconds            = Double(duration) / Double(timescale)
+        self.durationSeconds            = TimeInterval(duration) / TimeInterval(timescale)
         
         let videoBytes = Array(bytes[16..<bytes.count])
         for nalu in NALUStreamIterator(streamBytes: videoBytes, currentIdx: 0) {
@@ -96,10 +96,10 @@ public struct AudioSample: Sample {
         return UInt32(self.data.count)
     }
     
-    public var duration: Int64          = 0
-    public var durationSeconds: Double  = 0
-    public var decode: Double           = 0
-    public var timescale: UInt32        = 0
+    public var duration: Int64                  = 0
+    public var durationSeconds: TimeInterval    = 0
+    public var decode: TimeInterval             = 0
+    public var timescale: UInt32                = 0
         
     public var isSync: Bool = false
 
@@ -111,7 +111,7 @@ public struct AudioSample: Sample {
         self.type            = .audio
         self.duration        = Int64(bytes: Array(bytes[1..<9]))!
         self.timescale       = UInt32(bytes: Array(bytes[9..<13]))!
-        self.durationSeconds = Double(duration) / Double(timescale)
+        self.durationSeconds = TimeInterval(duration) / TimeInterval(timescale)
         
         self.sampleSize = 16
         self.channels   = 2

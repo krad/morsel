@@ -1,50 +1,76 @@
 import Foundation
 import AEXML
 
-struct DashVODPlaylist {
+class DashVODPlaylist: PlaylistGenerator {
     
-    private var document: AEXMLDocument
-    private var mpd: AEXMLElement
+    var type: PlaylistType = .dash_vod
+    internal var representation: Representation?
+    internal var fileName: String
     
-    init(_ representation: Representation) {
-        self.document = AEXMLDocument()
+    required init(fileName: String) {
+        self.fileName = fileName
+    }
+    
+    var output: String {
+        guard let representation = self.representation,
+            representation.segments.count > 0 else { return "" }
+        
+        let document = AEXMLDocument()
         let mpdAttrs = ["xmlns": "urn:mpeg:dash:schema:mpd:2011",
                         "profiles": "urn:mpeg:dash:profile:full:2011",
-                        "minBufferTime": "PT1.5S"]
+                        "type": self.type.rawValue,
+                        "maxSegmentDuration": "PT\(representation.targetDuration)S"]
         
-        self.mpd     = self.document.addChild(name: "MPD", attributes: mpdAttrs)
+        let mpd     = document.addChild(name: "MPD", attributes: mpdAttrs)
         
-        let period   = self.mpd.addChild(name: "Period",
+        let nativeDuration = representation.duration * Double(representation.timescale)
+        let periodComps = NSDateComponents.duration(from: nativeDuration,
+                                                    timescale: representation.timescale)
+        
+        var periodAttrs: [String: String] = [:]
+        if let periodDurationStr = periodComps.iso8601Duration {
+            periodAttrs["duration"] = periodDurationStr
+        }
+        
+        let period   = mpd.addChild(name: "Period",
                                          value: nil,
-                                         attributes: ["duration": "PT5M"])
+                                         attributes: periodAttrs)
         
         let adaptationSet = period.addChild(name: "AdaptationSet",
                                             value: nil,
                                             attributes: ["mimeType":"video/mp4"])
         
+        var repAttrs = ["id": "base",
+                        "bandwidth": "80000"]
+        
+        if let videoSettings = representation.videoSettings {
+            repAttrs["width"]  = String(videoSettings.width)
+            repAttrs["height"] = String(videoSettings.height)
+        }
+        
         let rep = adaptationSet.addChild(name: "Representation",
-                                                    value: nil,
-                                                    attributes: ["id":"base",
-                                                                 "bandwidth": "80000",
-//                                                                 "width": String(representation.videoSettings!.width),
-//                                                                 "height": String(representation.videoSettings!.height)
-            ])
+                                         value: nil,
+                                         attributes: repAttrs)
         
         let segmentList = rep.addChild(name: "SegmentList",
                                        value: nil,
                                        attributes: [
-//                                        "timescale": String(representation.?videoSettings!.timescale),
-                                                    "duration": String(Int64(representation.duration))])
+                                        "timescale": String(representation.timescale),
+                                        "duration": String(Int64(nativeDuration))])
         
         for segment in representation.segments {
-            segmentList.addChild(name: "SegmentURL", value: nil, attributes: ["media": segment.url.lastPathComponent])
+            if segment.isIndex {
+                segmentList.addChild(name: "Initialization",
+                                     value: nil,
+                                     attributes: ["sourceURL": segment.url.lastPathComponent])
+            } else {
+                segmentList.addChild(name: "SegmentURL",
+                                     value: nil,
+                                     attributes: ["media": segment.url.lastPathComponent])
+            }
         }
-    }
-    
-    func show() {
-        print("=======")
-        print(self.document.xml)
-        print("=======")
+
+        return document.xml
     }
     
 }
