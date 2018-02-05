@@ -58,16 +58,9 @@ struct TRUNSample: BinaryEncodable {
     }
 }
 
-// bit(6) reserved = 0
-// unsigned int(2) samples_depends_on
-// unsigned int(2) sample_is_depended_on
-// unsigned int(2) sample_has_redundancy
-// bit(3) sample_padding_value
-// bit(1) sample_is_difference_sample
 struct SampleFlags: BinaryEncodable, OptionSet {
     var rawValue: UInt32
-    static let reserved           = SampleFlags(rawValue: 0b00000000000000000000000000000000)
-    static let sampleDependsOn    = SampleFlags(rawValue: 0b00000011000000000000000000000000)
-    static let sampleIsDependedOn = SampleFlags(rawValue: 0b00000000110000000000000000000000)
+    static let sampleDependsOn    = SampleFlags(rawValue: 0x01000000)
+    static let sampleIsDependedOn = SampleFlags(rawValue: 0x02000000)
 }
 
