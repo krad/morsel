@@ -27,8 +27,6 @@ internal class PlaylistWriter {
             self.generator = HLSEventPlaylist(fileName: playlist.fileName)
         case .hls_live:
             self.generator = HLSLivePlaylist(fileName: playlist.fileName)
-        case .dash_vod:
-            self.generator = DashVODPlaylist(fileName: playlist.fileName)
         }
         
         if !FileManager.default.fileExists(atPath: self.playlistURL.path) {
