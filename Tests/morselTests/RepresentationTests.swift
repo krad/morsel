@@ -1,5 +1,6 @@
 import XCTest
 @testable import morsel
+import grip
 
 struct DummySegment: Segment {
     var url: URL
@@ -114,7 +115,8 @@ func mockVideoSettings() -> VideoSettings {
     
     let pps: [UInt8] = [40, 206, 31, 32]
     
-    let dimensions = VideoDimensions(width: 640, height: 480)
+    let packet: [UInt8] = [113, 0, 0, 2, 128, 0, 0, 1, 224]
+    let dimensions = VideoDimensions(from: packet)
     let settings   = VideoSettings(params: [sps, pps], dimensions: dimensions, timescale: 30000)
 
     return settings
