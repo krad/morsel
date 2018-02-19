@@ -1,3 +1,5 @@
+import grip
+
 // The sample size atom contains the sample count and a table giving the size of each sample.
 // This allows the media data itself to be unframed. The total number of samples in the media
 // is always indicated in the sample count. If the default size is indicated, then no table follows.

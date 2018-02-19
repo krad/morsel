@@ -1,3 +1,5 @@
+import grip
+
 struct MINF: BinarySizedEncodable {
     
     let type: Atom = .minf

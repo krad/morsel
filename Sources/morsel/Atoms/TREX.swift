@@ -1,3 +1,5 @@
+import grip
+
 struct TREX: BinarySizedEncodable {
     
     let type: Atom = .trex

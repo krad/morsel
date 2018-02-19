@@ -1,3 +1,5 @@
+import grip
+
 // Chunk offset atoms identify the location of each chunk of data in the media’s data stream.
 // https://developer.apple.com/library/content/documentation/QuickTime/QTFF/art/qt_l_112.gif
 // We shouldn't need any chunk entries for fragmented mp4

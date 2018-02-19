@@ -1,3 +1,5 @@
+import grip
+
 struct MVEX: BinarySizedEncodable {
     
     let type: Atom = .mvex

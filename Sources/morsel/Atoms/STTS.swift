@@ -1,3 +1,5 @@
+import grip
+
 // Time-to-Sample Atom
 // You can determine the appropriate sample for any time in a media by examining the time-to-sample atom
 // table, which is contained in the time-to-sample atom.

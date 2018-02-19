@@ -1,3 +1,5 @@
+import grip
+
 struct SMHD: BinarySizedEncodable {
     
     let type: Atom = .smhd

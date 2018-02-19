@@ -1,3 +1,5 @@
+import grip
+
 // The handler reference atom specifies the media handler component that is to be used to interpret the media’s data.
 // https://developer.apple.com/library/content/documentation/QuickTime/QTFF/art/qt_l_031.gif
 
@@ -17,7 +19,7 @@ struct HDLR: BinarySizedEncodable {
     
     var componentName: String = "krad.tv - morsel\0"
     
-    static func with(sampleType: AVSampleType) -> HDLR {
+    static func with(sampleType: SampleType) -> HDLR {
         var hdlr = HDLR()
         
         if sampleType == .video {

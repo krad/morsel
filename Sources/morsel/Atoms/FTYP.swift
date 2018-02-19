@@ -1,3 +1,5 @@
+import grip
+
 struct FTYP: BinaryEncodable {
     
     let type: Atom = .ftyp

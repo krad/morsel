@@ -1,8 +1,9 @@
 import XCTest
 @testable import morsel
+import grip
 
-let keyframePayload: [UInt8] = [AVSampleType.video.rawValue, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
-let pframePayload: [UInt8]   = [AVSampleType.video.rawValue, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
+let keyframePayload: [UInt8] = [SampleType.video.rawValue, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
+let pframePayload: [UInt8]   = [SampleType.video.rawValue, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
 
 let landscape = VideoDimensions(from: [0, 0, 0, 2, 128, 0, 0, 1, 224])
 let portrait  = VideoDimensions(from: [0, 0, 0, 1, 224, 0, 0, 2, 128])

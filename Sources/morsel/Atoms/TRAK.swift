@@ -1,3 +1,5 @@
+import grip
+
 struct TRAK: BinarySizedEncodable {
     
     let type: Atom = .trak

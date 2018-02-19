@@ -1,4 +1,5 @@
 import Foundation
+import grip
 
 struct MOOF: BinaryEncodable {
     

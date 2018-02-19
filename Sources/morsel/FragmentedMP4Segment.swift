@@ -1,5 +1,5 @@
 import Foundation
-
+import grip
 
 internal class FragmentedMP4Segment: Segment {
     

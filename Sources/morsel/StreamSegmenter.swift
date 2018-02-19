@@ -1,36 +1,6 @@
 import Foundation
 import Dispatch
-
-public struct AVStreamType: OptionSet {
-    public var rawValue: UInt8
-    
-    public init(rawValue: UInt8) {
-        self.rawValue = rawValue
-    }
-    
-    public static func parse(_ bytes: [UInt8]) -> AVStreamType? {
-        guard bytes.count == 2 else { return nil }
-        
-        if let valueByte = bytes.last {
-            guard valueByte >= 0 && valueByte <= 3 else { return nil }
-            let streamType = AVStreamType(rawValue: valueByte)
-            return streamType
-        }
-        return nil
-    }
-    
-    public static let video = AVStreamType(rawValue: 1 << 0)
-    public static let audio = AVStreamType(rawValue: 1 << 1)
-    
-    func supported(_ sample: Sample) -> Bool {
-        if self == [.video, .audio] { return true }
-        if self == [.video] && sample.type == .video { return true }
-        if self == [.audio] && sample.type == .audio { return true }
-        return false
-    }
-}
-
-extension AVStreamType: BinaryEncodable { }
+import grip
 
 protocol StreamSegmenterDelegate {
     func writeInitSegment(with config: MOOVConfig,
@@ -47,7 +17,7 @@ protocol StreamSegmenterDelegate {
 final internal class StreamSegmenter {
     
     final internal let targetSegmentDuration: TimeInterval
-    final internal var streamType: AVStreamType
+    final internal var streamType: StreamType
     
     final internal var currentSegment  = 0
     final internal var currentSequence = 1
@@ -109,7 +79,7 @@ final internal class StreamSegmenter {
     }
 
     init(targetSegmentDuration: TimeInterval,
-         streamType: AVStreamType = [.video, .audio],
+         streamType: StreamType = [.video, .audio],
          delegate: StreamSegmenterDelegate? = nil) throws
     {
         self.targetSegmentDuration = targetSegmentDuration

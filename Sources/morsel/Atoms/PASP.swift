@@ -1,3 +1,5 @@
+import grip
+
 // This extension specifies the height-to-width ratio of pixels found in the video sample.
 // This is a required extension for MPEG-4 and uncompressed Y´CbCr video formats when non-square pixels
 // are used. It is optional when square pixels are used.

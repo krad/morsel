@@ -1,3 +1,5 @@
+import grip
+
 struct MOOVConfig {
     
     var videoSettings: VideoSettings?
