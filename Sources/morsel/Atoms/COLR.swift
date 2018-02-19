@@ -1,3 +1,5 @@
+import grip
+
 // This atom is a required extension for uncompressed Y´CbCr data formats.
 // The 'colr' extension is used to map the numerical values of pixels in the file to a common representation of color in which images can be correctly compared, combined, and displayed.
 struct COLR: BinarySizedEncodable {

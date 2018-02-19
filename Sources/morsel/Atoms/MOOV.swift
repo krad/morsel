@@ -1,3 +1,5 @@
+import grip
+
 struct MOOV: BinaryEncodable {
     
     let type: Atom = .moov

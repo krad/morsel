@@ -1,3 +1,5 @@
+import grip
+
 struct TRAF: BinarySizedEncodable {
     
     let type: Atom = .traf

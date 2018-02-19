@@ -1,3 +1,5 @@
+import grip
+
 struct MP4A: BinarySizedEncodable {
     
     let type: Atom         = .mp4a

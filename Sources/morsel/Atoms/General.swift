@@ -1,4 +1,5 @@
 import Foundation
+import grip
 
 enum Atom: String, BinaryEncodable {
     case ftyp = "ftyp"

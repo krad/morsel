@@ -1,3 +1,5 @@
+import grip
+
 struct TRUN: BinarySizedEncodable {
     
     let type: Atom          = .trun    

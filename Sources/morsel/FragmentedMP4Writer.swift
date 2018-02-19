@@ -1,4 +1,5 @@
 import Foundation
+import grip
 
 // MARK: - Enum containing errors that can be thrown by the mp4 writer
 
@@ -36,7 +37,7 @@ public class FragmentedMP4Writer {
     /// - Throws: Will throw errors if any problems with setup arise
     public init(_ outputDir: URL,
                 targetDuration: TimeInterval = 6,
-                streamType: AVStreamType = [.video, .audio],
+                streamType: StreamType = [.video, .audio],
                 delegate: FileWriterDelegate? = nil) throws
     {
         /// Verify we have a directory to write to
@@ -83,7 +84,7 @@ public class FragmentedMP4Writer {
     /// - Parameters:
     ///   - sample: Sample data that should be written to the stream
     ///   - type: Flag indicating whether the sample is audio or video
-    public func append(sample: Sample, type: AVSampleType) {
+    public func append(sample: Sample, type: SampleType) {
         switch type {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)

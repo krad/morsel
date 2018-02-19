@@ -1,3 +1,5 @@
+import grip
+
 struct MDIA: BinarySizedEncodable {
     
     let type: Atom = .mdia

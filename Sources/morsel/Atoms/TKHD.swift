@@ -1,3 +1,5 @@
+import grip
+
 // The track header atom specifies the characteristics of a single track within a movie. A track header atom contains a size field that specifies the number of bytes and a type field that indicates the format of the data (defined by the atom type 'tkhd').
 // https://developer.apple.com/library/content/documentation/QuickTime/QTFF/art/qt_l_096.gif
 

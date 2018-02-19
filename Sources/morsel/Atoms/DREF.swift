@@ -1,3 +1,5 @@
+import grip
+
 struct DREF: BinarySizedEncodable {
     
     let type: Atom = .dref

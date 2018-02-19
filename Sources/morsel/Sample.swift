@@ -1,27 +1,5 @@
 import Foundation
-
-public enum AVSampleType: UInt8, BinaryEncodable {
-    case video    = 0x75 // v
-    case audio    = 0x61 // a
-}
-
-public protocol Sample {
-    var type: AVSampleType { get }
-    var data: [UInt8] { get }
-    var size: UInt32 { get }
-    var duration: Int64 { get }
-    var durationInSeconds: TimeInterval { get }
-    
-    var decode: TimeInterval { get set }
-    var timescale: UInt32 { get }
-    var isSync: Bool { get }
-}
-
-extension Sample {
-    public var durationInSeconds: TimeInterval {
-        return TimeInterval(self.duration) / TimeInterval(self.timescale)
-    }
-}
+import grip
 
 protocol MediaFormat { }
 #if os(Linux)
@@ -31,97 +9,6 @@ extension CMFormatDescription: MediaFormat { }
 extension AudioStreamBasicDescription: MediaFormat { }
 #endif
 
-public struct VideoDimensions {
-    var width: UInt32
-    var height: UInt32
-    
-    public init(from data: [UInt8]) {
-        self.width  = UInt32(bytes: Array(data[1..<5]))!
-        self.height = UInt32(bytes: Array(data[5..<data.count]))!
-    }
-    
-    internal init(width: UInt32, height: UInt32) {
-        self.width  = width
-        self.height = height
-    }
-}
-
-public struct VideoSample: Sample {
-    
-    public var type: AVSampleType
-    public var nalus: [NALU] = []
-    
-    public var data: [UInt8] {
-        var results: [UInt8] = []
-        for nalu in nalus {
-            results.append(contentsOf: nalu.data)
-        }
-        return results
-    }
-    
-    public var duration: Int64                  = 0
-    public var durationSeconds: TimeInterval    = 0
-    public var decode: Double                   = 0
-    public var timescale: UInt32                = 0
-    
-    public var size: UInt32 { return self.nalus.reduce(0, { last, nalu in last + nalu.totalSize }) }
-    
-    public var dependsOnOthers: Bool            = false
-    public var isSync: Bool                     = false
-    public var earlierDisplayTimesAllowed: Bool = false
-    
-    public init(bytes: [UInt8]) {
-        self.type                       = .video
-        self.isSync                     = bytes[1].toBool()
-        self.dependsOnOthers            = bytes[2].toBool()
-        self.earlierDisplayTimesAllowed = bytes[3].toBool()
-        self.duration                   = Int64(bytes: Array(bytes[4..<12]))!
-        self.timescale                  = UInt32(bytes: Array(bytes[12..<16]))!
-        self.durationSeconds            = TimeInterval(duration) / TimeInterval(timescale)
-        
-        let videoBytes = Array(bytes[16..<bytes.count])
-        for nalu in NALUStreamIterator(streamBytes: videoBytes, currentIdx: 0) {
-            self.nalus.append(nalu)
-        }
-    }
-    
-}
-
-public struct AudioSample: Sample {
-    
-    public let type: AVSampleType
-    public let data: [UInt8]
-    
-    public var size: UInt32 {
-        return UInt32(self.data.count)
-    }
-    
-    public var duration: Int64                  = 0
-    public var durationSeconds: TimeInterval    = 0
-    public var decode: TimeInterval             = 0
-    public var timescale: UInt32                = 0
-        
-    public var isSync: Bool = false
-
-    public let sampleSize: UInt16
-    public let channels: UInt32
-    public let sampleRate: Double
-    
-    public init(bytes: [UInt8]) {
-        self.type            = .audio
-        self.duration        = Int64(bytes: Array(bytes[1..<9]))!
-        self.timescale       = UInt32(bytes: Array(bytes[9..<13]))!
-        self.durationSeconds = TimeInterval(duration) / TimeInterval(timescale)
-        
-        self.sampleSize = 16
-        self.channels   = 2
-        self.sampleRate = Double(self.timescale)
-        
-        let audioBytes = Array(bytes[13..<bytes.count])
-        self.data      = audioBytes
-    }
-    
-}
 
 enum AudioObjectType: UInt8 {
     case AAC_Main     = 1
@@ -210,14 +97,3 @@ public func ==(lhs: VideoSettings, rhs: VideoSettings) -> Bool {
 }
 
 extension VideoSettings: Equatable { }
-
-public func ==(lhs: VideoDimensions, rhs: VideoDimensions) -> Bool {
-    if lhs.width == rhs.width {
-        if lhs.height == rhs.height {
-            return true
-        }
-    }
-    return false
-}
-
-extension VideoDimensions: Equatable { }

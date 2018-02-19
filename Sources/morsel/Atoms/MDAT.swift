@@ -1,3 +1,5 @@
+import grip
+
 // Media Data Atom
 struct MDAT: BinaryEncodable {
     
