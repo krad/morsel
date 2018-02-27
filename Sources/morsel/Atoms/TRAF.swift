@@ -8,7 +8,7 @@ struct TRAF: BinarySizedEncodable {
     var trackDecodeAtom: [TFDT] = [TFDT()]
     var trackRun: [TRUN] = [TRUN()]
     
-    static func from(_ samples:[Sample],
+    static func from(_ samples:[CompressedSample],
                      config: MOOVConfig) -> [TRAF]
     {
         var trackFragments: [TRAF] = []

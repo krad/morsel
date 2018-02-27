@@ -9,7 +9,7 @@ struct MOOF: BinaryEncodable {
     var trackFragments: [TRAF] = [TRAF()]
     
     init(config: MOOVConfig,
-         samples: [Sample],
+         samples: [CompressedSample],
          currentSequence: UInt32)
     {
         self.movieFragmentHeaderAtom = [MFHD(sequenceNumber: currentSequence)]

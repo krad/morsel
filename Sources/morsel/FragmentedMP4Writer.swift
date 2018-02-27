@@ -84,14 +84,14 @@ public class FragmentedMP4Writer {
     /// - Parameters:
     ///   - sample: Sample data that should be written to the stream
     ///   - type: Flag indicating whether the sample is audio or video
-    public func append(sample: Sample, type: SampleType) {
+    public func append(sample: CompressedSample, type: CompressedSampleType) {
         switch type {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)
         }
     }
     
-    private func append(videoSample: Sample) {
+    private func append(videoSample: CompressedSample) {
         var sample     = videoSample
         sample.decode  = TimeInterval(self.videoDecodeCount)
         
@@ -99,7 +99,7 @@ public class FragmentedMP4Writer {
         self.videoDecodeCount += sample.duration
     }
     
-    private func append(audioSample: Sample) {
+    private func append(audioSample: CompressedSample) {
         var sample    = audioSample
         sample.decode = TimeInterval(self.audioDecodeCount)
         
@@ -165,7 +165,7 @@ extension FragmentedMP4Writer: StreamSegmenterDelegate {
                                                         firstSequence: sequenceNumber)
     }
     
-    func writeMOOF(with samples: [Sample], duration: TimeInterval, sequenceNumber: Int) {
+    func writeMOOF(with samples: [CompressedSample], duration: TimeInterval, sequenceNumber: Int) {
         try? self.currentSegment?.write(samples, duration: duration, sequenceNumber: sequenceNumber)
     }
     

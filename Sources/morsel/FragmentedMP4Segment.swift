@@ -28,7 +28,7 @@ internal class FragmentedMP4Segment: Segment {
         self.firstMediaSequenceNumber   = firstSequence
     }
     
-    func write(_ samples: [Sample], duration: TimeInterval, sequenceNumber: Int) throws {
+    func write(_ samples: [CompressedSample], duration: TimeInterval, sequenceNumber: Int) throws {
         self.duration += duration
         
         let moof = MOOF(config: self.config,

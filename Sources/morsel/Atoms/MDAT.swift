@@ -6,7 +6,7 @@ struct MDAT: BinaryEncodable {
     let type: Atom = .mdat
     private var data: [UInt8] = []
     
-    init(samples: [Sample]) {
+    init(samples: [CompressedSample]) {
         let videoSamples = samples.filter { $0.type == .video } as! [VideoSample]
         let audioSamples = samples.filter { $0.type == .audio } as! [AudioSample]
         

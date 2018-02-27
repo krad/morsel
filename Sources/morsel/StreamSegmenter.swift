@@ -11,7 +11,7 @@ protocol StreamSegmenterDelegate {
                           segmentNumber: Int,
                           sequenceNumber: Int)
     
-    func writeMOOF(with samples: [Sample], duration: TimeInterval, sequenceNumber: Int)
+    func writeMOOF(with samples: [CompressedSample], duration: TimeInterval, sequenceNumber: Int)
 }
 
 final internal class StreamSegmenter {
@@ -22,12 +22,12 @@ final internal class StreamSegmenter {
     final internal var currentSegment  = 0
     final internal var currentSequence = 1
     
-    final internal var videoSamples: ThreadSafeArray<Sample>
+    final internal var videoSamples: ThreadSafeArray<CompressedSample>
     final internal var videoSamplesDuration: TimeInterval {
         return self.videoSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
     
-    final internal var audioSamples: ThreadSafeArray<Sample>
+    final internal var audioSamples: ThreadSafeArray<CompressedSample>
     final internal var audioSamplesDuration: TimeInterval {
         return self.audioSamples.reduce(0) { cnt, sample in cnt + sample.durationInSeconds }
     }
@@ -85,11 +85,11 @@ final internal class StreamSegmenter {
         self.targetSegmentDuration = targetSegmentDuration
         self.streamType            = streamType
         self.delegate              = delegate
-        self.videoSamples          = ThreadSafeArray<Sample>()
-        self.audioSamples          = ThreadSafeArray<Sample>()
+        self.videoSamples          = ThreadSafeArray<CompressedSample>()
+        self.audioSamples          = ThreadSafeArray<CompressedSample>()
     }
     
-    func append(_ sample: Sample) {
+    func append(_ sample: CompressedSample) {
         if self.streamType.supported(sample) {
             self.buffer(sample: sample)
             if self.wroteInitSegment {
@@ -106,7 +106,7 @@ final internal class StreamSegmenter {
         }
     }
     
-    private func handle(_ sample: Sample) {
+    private func handle(_ sample: CompressedSample) {
         if self.currentSegment == 0 {
             self.currentSegment += 1
             self.delegate?.createNewSegment(with: self.moovConfig,
@@ -148,8 +148,8 @@ final internal class StreamSegmenter {
         }
     }
     
-    private func vendVideoSamples() -> [Sample] {
-        var results: [Sample] = []
+    private func vendVideoSamples() -> [CompressedSample] {
+        var results: [CompressedSample] = []
 
         for (i, sample) in self.videoSamples.enumerated() {
             if sample.isSync {
@@ -164,8 +164,8 @@ final internal class StreamSegmenter {
         return results
     }
     
-    private func vendAudioSamples(upTo duration: TimeInterval) -> [Sample] {
-        var results: [Sample] = []
+    private func vendAudioSamples(upTo duration: TimeInterval) -> [CompressedSample] {
+        var results: [CompressedSample] = []
         
         var bufferDuration: TimeInterval = 0.0
         for sample in self.audioSamples {
@@ -186,7 +186,7 @@ final internal class StreamSegmenter {
                                         sequenceNumber: self.currentSequence)
     }
     
-    private func buffer(sample: Sample) {
+    private func buffer(sample: CompressedSample) {
         switch sample.type {
         case .audio: self.audioSamples.append(sample)
         case .video: self.videoSamples.append(sample)
