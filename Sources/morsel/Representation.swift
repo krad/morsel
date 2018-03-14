@@ -44,4 +44,8 @@ internal class Representation {
         self.playlists.append(writer)
     }
     
+    internal func end() {
+        self.state = .done
+        self.playlists.forEach { $0.update() }
+    }
 }
