@@ -84,8 +84,8 @@ public class FragmentedMP4Writer {
     /// - Parameters:
     ///   - sample: Sample data that should be written to the stream
     ///   - type: Flag indicating whether the sample is audio or video
-    public func append(sample: CompressedSample, type: CompressedSampleType) {
-        switch type {
+    public func append(sample: CompressedSample) {
+        switch sample.type {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)
         }
@@ -126,7 +126,8 @@ public class FragmentedMP4Writer {
     
     /// Appends and end tag for now
     public func stop() {
-        self.representation.state = .done
+        self.segmenter?.flush()
+        self.representation.end()
     }
     
 }

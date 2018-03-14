@@ -193,4 +193,9 @@ final internal class StreamSegmenter {
         }
     }
     
+    internal func flush() {
+        while videoSamples.count > 0 { self.writeMOOF() }
+        self.signalNewSegment()
+    }
+    
 }
