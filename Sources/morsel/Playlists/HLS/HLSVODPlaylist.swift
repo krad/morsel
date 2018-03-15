@@ -40,6 +40,7 @@ class HLSVODPlaylist: PlaylistGenerator {
         return [
             "#EXTM3U",
             "#EXT-X-TARGETDURATION:\(Int64(representation.targetDuration))",
+            "#EXT-X-ALLOW-CACHE:YES",
             "#EXT-X-VERSION:7",
             "#EXT-X-MEDIA_SEQUENCE:1",
             "#EXT-X-PLAYLIST-TYPE:\(self.type.rawValue)",
