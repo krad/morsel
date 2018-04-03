@@ -10,8 +10,9 @@ let pps: [UInt8] = [40, 206, 31, 32]
 
 class FragmentedMP4WriterTests: XCTestCase {
 
-    var iFrame          = VideoSample(bytes: keyframePayload)
-    var pFrame          = VideoSample(bytes: pframePayload)
+
+    var iFrame          = VideoSample(duration: 1, timescale: 2, data: keyframePayload)
+    var pFrame          = VideoSample(duration: 1, timescale: 2, data: pframePayload)
     var videoSettings   = VideoSettings(params: [sps, pps],
                                         dimensions: landscape,
                                         timescale: 10)

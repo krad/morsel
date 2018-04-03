@@ -88,6 +88,8 @@ public class FragmentedMP4Writer {
         switch sample.type {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)
+        default:
+            _=0
         }
     }
     

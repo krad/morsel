@@ -190,6 +190,7 @@ final internal class StreamSegmenter {
         switch sample.type {
         case .audio: self.audioSamples.append(sample)
         case .video: self.videoSamples.append(sample)
+        default: _=0
         }
     }
     

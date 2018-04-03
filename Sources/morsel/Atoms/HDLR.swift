@@ -19,7 +19,7 @@ struct HDLR: BinarySizedEncodable {
     
     var componentName: String = "krad.tv - morsel\0"
     
-    static func with(sampleType: CompressedSampleType) -> HDLR {
+    static func with(sampleType: PacketType) -> HDLR {
         var hdlr = HDLR()
         
         if sampleType == .video {

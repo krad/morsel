@@ -1,17 +1,18 @@
 import XCTest
+import Foundation
 @testable import morsel
 import grip
 
-let keyframePayload: [UInt8] = [CompressedSampleType.video.rawValue, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
-let pframePayload: [UInt8]   = [CompressedSampleType.video.rawValue, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
+let keyframePayload: [UInt8] = [PacketType.video.rawValue, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
+let pframePayload: [UInt8]   = [PacketType.video.rawValue, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 10]
 
-let landscape = VideoDimensions(from: [0, 0, 0, 2, 128, 0, 0, 1, 224])
-let portrait  = VideoDimensions(from: [0, 0, 0, 1, 224, 0, 0, 2, 128])
+let landscape = VideoDimensions(from: [0x71, 0, 0, 2, 128, 0, 0, 1, 224])
+let portrait  = VideoDimensions(from: [0x71, 0, 0, 1, 224, 0, 0, 2, 128])
 
 class StreamSegmenterTests: XCTestCase {
     
-    var iFrame = VideoSample(bytes: keyframePayload)
-    var pFrame = VideoSample(bytes: pframePayload)
+    var iFrame = VideoSample(duration: 1, timescale: 2, data: keyframePayload)
+    var pFrame = VideoSample(duration: 1, timescale: 2, data: pframePayload)
     var videoSettings = VideoSettings(params: [[0], [1]],
                                       dimensions: landscape,
                                       timescale: 10)
@@ -54,6 +55,13 @@ class StreamSegmenterTests: XCTestCase {
             self.moofSamples = samples as! [VideoSample]
             self.moofExp?.fulfill()
         }
+    }
+    
+    override func setUp() {
+        super.setUp()
+        iFrame.isSync = true
+        pFrame.isSync = false
+        self.continueAfterFailure = false
     }
     
     func test_a_video_only_session() {
