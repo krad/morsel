@@ -15,6 +15,13 @@ struct MOOV: BinaryEncodable {
             self.movieHeaderAtom = [MVHD.from(videoSettings)]
         }
         
+        if let audioSettings = config.audioSettings {
+            if var mvhd = self.movieHeaderAtom.first {
+                mvhd.timeScale = audioSettings.sampleRate
+                self.movieHeaderAtom = [mvhd]
+            }
+        }
+        
         self.tracks            = TRAK.from(config)
         self.mediaFragmentInfo = [MVEX.from(config)]
     }
