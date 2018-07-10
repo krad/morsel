@@ -14,7 +14,7 @@
     <a title="FragmentedMP4Writer Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">morsel Docs</a> (55% documented)</p>
+        <p><a href="../index.html">morsel Docs</a> (86% documented)</p>
         <p class="header-right"><a href="https://github.com/krad/morsel"><img src="../img/gh.png"/>View on GitHub</a></p>
       </div>
     </header>
@@ -91,8 +91,9 @@
               </div>
             <p>A class that reads in audio and video samples and produces fragmented mp4&rsquo;s and playlists</p>
 <h4 id='usage-example' class='heading'>Usage Example:</h4>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">outputDir</span>   <span class="o">=</span> <span class="nf">URL</span><span class="p">(</span><span class="nv">fileURLWithPath</span><span class="p">:</span> <span class="nf">NSTemporaryDirectory</span><span class="p">(),</span> <span class="nv">isDirectory</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span> <span class="c1">// URL to a temp dir</span>
-<span class="k">let</span> <span class="nv">writer</span>      <span class="o">=</span> <span class="nf">FragmentedMP4Writer</span><span class="p">(</span><span class="n">outputDir</span><span class="p">)</span> <span class="c1">// setup the writer without any extras</span>
+<pre class="highlight swift"><code><span class="c1">// URL to a temp dir</span>
+<span class="k">let</span> <span class="nv">outputDir</span>   <span class="o">=</span> <span class="nf">URL</span><span class="p">(</span><span class="nv">fileURLWithPath</span><span class="p">:</span> <span class="nf">NSTemporaryDirectory</span><span class="p">(),</span> <span class="nv">isDirectory</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">writer</span>      <span class="o">=</span> <span class="nf">FragmentedMP4Writer</span><span class="p">(</span><span class="n">outputDir</span><span class="p">)</span> <span class="c1">// setup the writer without any options</span>
 <span class="n">writer</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">settings</span><span class="p">:</span> <span class="n">videoSettings</span><span class="p">)</span> <span class="c1">// Pass in video settings config</span>
 <span class="n">writer</span><span class="o">.</span><span class="nf">configure</span><span class="p">(</span><span class="nv">settings</span><span class="p">:</span> <span class="n">audioSettings</span><span class="p">)</span> <span class="c1">// Pass in audio settings confg</span>
 
@@ -103,7 +104,7 @@
 <span class="c1">// Append some samples</span>
 <span class="n">writer</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">compressedSample</span><span class="p">)</span>
 
-<span class="c1">// Singnal when complete.  All queued samples in the writer will be immediately flushed.</span>
+<span class="c1">// Signal when complete.  All queued samples in the writer will be immediately flushed.</span>
 <span class="n">writer</span><span class="o">.</span><span class="nf">stop</span><span class="p">()</span>
 </code></pre>
 

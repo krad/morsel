@@ -23,13 +23,13 @@ public struct Playlist {
 /// - hls_event: HLS Event playlist
 public enum PlaylistType: String {
     
-    // HLS Video on Demand (VOD) playlist
+    /// HLS Video on Demand (VOD) playlist
     case hls_vod    = "VOD"
     
-    // HLS Live (Sliding Window) playlist
+    /// HLS Live (Sliding Window) playlist
     case hls_live   = "LIVE"
     
-    // HLS Event playlist
+    /// HLS Event playlist
     case hls_event  = "EVENT"
     
 }

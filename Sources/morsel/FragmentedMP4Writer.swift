@@ -1,16 +1,19 @@
 import Foundation
 import grip
 
-// MARK: - Enum containing errors that can be thrown by the mp4 writer
-
+/// Enum containing errors that can be thrown by the mp4 writer
+///
+/// - fileNotDirectory: Thrown when we were expecting a directory, but ended up with a file
+/// - directoryDoesNotExist: Thrown when the directory specified does not exist
+/// - couldNotAddPlaylist: Thrown when there was an error adding a playlist to the writer
 public enum FragmentedMP4WriterError: Error {
-    // Thrown when we were expecting a directory, but ended up with a file
+    /// Thrown when we were expecting a directory, but ended up with a file
     case fileNotDirectory
     
-    // Thrown when the directory specified does not exist
+    /// Thrown when the directory specified does not exist
     case directoryDoesNotExist
     
-    // Thrown when there was an error adding a playlist to the writer
+    /// Thrown when there was an error adding a playlist to the writer
     case couldNotAddPlaylist(error: Error)
 }
 
@@ -19,8 +22,9 @@ public enum FragmentedMP4WriterError: Error {
 /// A class that reads in audio and video samples and produces fragmented mp4's and playlists
 /// #### Usage Example: ####
 /// ````
-/// let outputDir   = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) // URL to a temp dir
-/// let writer      = FragmentedMP4Writer(outputDir) // setup the writer without any extras
+/// // URL to a temp dir
+/// let outputDir   = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+/// let writer      = FragmentedMP4Writer(outputDir) // setup the writer without any options
 /// writer.configure(settings: videoSettings) // Pass in video settings config
 /// writer.configure(settings: audioSettings) // Pass in audio settings confg
 ///
@@ -31,7 +35,7 @@ public enum FragmentedMP4WriterError: Error {
 /// // Append some samples
 /// writer.append(compressedSample)
 ///
-/// // Singnal when complete.  All queued samples in the writer will be immediately flushed.
+/// // Signal when complete.  All queued samples in the writer will be immediately flushed.
 /// writer.stop()
 /// ````
 public class FragmentedMP4Writer {
