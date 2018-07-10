@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>FragmentedMP4Writer Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/FragmentedMP4Writer" class="dashAnchor"></a>
+    <a title="FragmentedMP4Writer Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">morsel Docs</a> (55% documented)</p>
+        <p class="header-right"><a href="https://github.com/krad/morsel"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">morsel Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        FragmentedMP4Writer Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/FragmentedMP4Writer.html">FragmentedMP4Writer</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/FragmentedMP4WriterError.html">FragmentedMP4WriterError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PlaylistType.html">PlaylistType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:6morsel2eeoiSbAA13VideoSettingsV_ADtF">==(_:_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/FileWriterDelegate.html">FileWriterDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/AudioSettings.html">AudioSettings</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Playlist.html">Playlist</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/VideoSettings.html">VideoSettings</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>FragmentedMP4Writer</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">FragmentedMP4Writer</span></code></pre>
+
+                </div>
+              </div>
+            <p>A class that reads in audio and video samples and produces fragmented mp4&rsquo;s and playlists</p>
+<h4 id='usage-example' class='heading'>Usage Example:</h4>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">a</span> <span class="o">=</span> <span class="sc">'1'</span>
+</code></pre>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Setup%20and%20Configuration%20methods"></a>
+                <a name="//apple_ref/swift/Section/Setup and Configuration methods" class="dashAnchor"></a>
+                <a href="#/Setup%20and%20Configuration%20methods">
+                  <h3 class="section-name">Setup and Configuration methods</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterCAC10Foundation3URLV_Sd14targetDuration4grip10StreamTypeV06streamK0AA04FileD8Delegate_pSg8delegatetKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:targetDuration:streamType:delegate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterCAC10Foundation3URLV_Sd14targetDuration4grip10StreamTypeV06streamK0AA04FileD8Delegate_pSg8delegatetKcfc">init(_:targetDuration:streamType:delegate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a new writer</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Will throw errors if any problems with setup arise
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">outputDir</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
+            <span class="nv">targetDuration</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+            <span class="nv">streamType</span><span class="p">:</span> <span class="kt">StreamType</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="n">video</span><span class="p">,</span> <span class="o">.</span><span class="n">audio</span><span class="p">],</span>
+            <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/FileWriterDelegate.html">FileWriterDelegate</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>outputDir</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A URL on the local filesystem that playlists and fragmented mp4&rsquo;s should be written to</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>targetDuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The target duration that each segment should be</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>streamType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Type of stream that is being read.  eg: audio/video, video only, audio only</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Delegate that is notified when files are written or updated</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterC9configureyAA13VideoSettingsV8settings_tF"></a>
+                    <a name="//apple_ref/swift/Method/configure(settings:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterC9configureyAA13VideoSettingsV8settings_tF">configure(settings:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Configure the writer with video settings.
+This happens after initial setup because a video source might not be known / available</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span><span class="nv">settings</span><span class="p">:</span> <span class="kt"><a href="../Structs/VideoSettings.html">VideoSettings</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settings</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>VideoSettings struct describing video portion of the stream</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterC9configureyAA13AudioSettingsV8settings_tF"></a>
+                    <a name="//apple_ref/swift/Method/configure(settings:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterC9configureyAA13AudioSettingsV8settings_tF">configure(settings:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Configure the writer with audio settings
+This happens after initial setup because an audio source might not be known / available</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">configure</span><span class="p">(</span><span class="nv">settings</span><span class="p">:</span> <span class="kt"><a href="../Structs/AudioSettings.html">AudioSettings</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settings</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>AudioSettings struct describing the audio portion of the stream</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Adding%20content%20to%20the%20writer"></a>
+                <a name="//apple_ref/swift/Section/Adding content to the writer" class="dashAnchor"></a>
+                <a href="#/Adding%20content%20to%20the%20writer">
+                  <h3 class="section-name">Adding content to the writer</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterC6appendy4grip16CompressedSample_p6sample_tF"></a>
+                    <a name="//apple_ref/swift/Method/append(sample:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterC6appendy4grip16CompressedSample_p6sample_tF">append(sample:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Append a sample for writing</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">append</span><span class="p">(</span><span class="nv">sample</span><span class="p">:</span> <span class="kt">CompressedSample</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>sample</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Sample data that should be written to the stream</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag indicating whether the sample is audio or video</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Playlist%20management"></a>
+                <a name="//apple_ref/swift/Section/Playlist management" class="dashAnchor"></a>
+                <a href="#/Playlist%20management">
+                  <h3 class="section-name">Playlist management</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterC3addyAA8PlaylistV8playlist_tKF"></a>
+                    <a name="//apple_ref/swift/Method/add(playlist:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterC3addyAA8PlaylistV8playlist_tKF">add(playlist:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add another playlist to be generated.
+The mp4 writer can generate multiple playlists at once</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    Throws a writer error if the playlist could not be added
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="nv">playlist</span><span class="p">:</span> <span class="kt"><a href="../Structs/Playlist.html">Playlist</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>playlist</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Playlist to be generated</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Controlling%20the%20state%20of%20the%20writer"></a>
+                <a name="//apple_ref/swift/Section/Controlling the state of the writer" class="dashAnchor"></a>
+                <a href="#/Controlling%20the%20state%20of%20the%20writer">
+                  <h3 class="section-name">Controlling the state of the writer</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:6morsel19FragmentedMP4WriterC4stopyyF"></a>
+                    <a name="//apple_ref/swift/Method/stop()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:6morsel19FragmentedMP4WriterC4stopyyF">stop()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Appends and end tag for now</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="https://krad.io" target="_blank" rel="external">krad.tv</a>. All rights reserved. (Last updated: 2018-07-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

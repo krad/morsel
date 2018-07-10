@@ -4,14 +4,36 @@ import grip
 // MARK: - Enum containing errors that can be thrown by the mp4 writer
 
 public enum FragmentedMP4WriterError: Error {
+    // Thrown when we were expecting a directory, but ended up with a file
     case fileNotDirectory
+    
+    // Thrown when the directory specified does not exist
     case directoryDoesNotExist
+    
+    // Thrown when there was an error adding a playlist to the writer
     case couldNotAddPlaylist(error: Error)
 }
 
 // MARK: - Fragmented MP4 Writer class
 
 /// A class that reads in audio and video samples and produces fragmented mp4's and playlists
+/// #### Usage Example: ####
+/// ````
+/// let outputDir   = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true) // URL to a temp dir
+/// let writer      = FragmentedMP4Writer(outputDir) // setup the writer without any extras
+/// writer.configure(settings: videoSettings) // Pass in video settings config
+/// writer.configure(settings: audioSettings) // Pass in audio settings confg
+///
+/// // Specify a hls vod style playlist (file will appear in outputDir/vod.m3u8)
+/// let playlist = Playlist(type: .hls_vod, fileName: "vod.m3u8")
+/// try writer.add(playlist: playlist)
+///
+/// // Append some samples
+/// writer.append(compressedSample)
+///
+/// // Singnal when complete.  All queued samples in the writer will be immediately flushed.
+/// writer.stop()
+/// ````
 public class FragmentedMP4Writer {
     
     var videoDecodeCount: Int64 = 0
@@ -88,8 +110,7 @@ public class FragmentedMP4Writer {
         switch sample.type {
         case .video: self.append(videoSample: sample)
         case .audio: self.append(audioSample: sample)
-        default:
-            _=0
+        default: _=0
         }
     }
     
@@ -111,6 +132,11 @@ public class FragmentedMP4Writer {
 
 // MARK: Playlist management
     
+    /// Add another playlist to be generated.
+    /// The mp4 writer can generate multiple playlists at once
+    ///
+    /// - Parameter playlist: Playlist to be generated
+    /// - Throws: Throws a writer error if the playlist could not be added
     public func add(playlist: Playlist) throws {
         do {
             let writer = try PlaylistWriter(baseURL: self.outputDir,

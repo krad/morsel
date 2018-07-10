@@ -2,6 +2,7 @@ protocol Codec {
     var name: String { get }
 }
 
+
 enum VideoCodec: Codec {
     case h264(profile: VideoCodecProfile, constraint: UInt8, level: UInt8)
     

@@ -1,0 +1,96 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
+      "line": 6,
+      "symbol": "FragmentedMP4WriterError",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
+      "line": 7,
+      "symbol": "FragmentedMP4WriterError.fileNotDirectory",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
+      "line": 8,
+      "symbol": "FragmentedMP4WriterError.directoryDoesNotExist",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
+      "line": 9,
+      "symbol": "FragmentedMP4WriterError.couldNotAddPlaylist",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/MOOVConfig.swift",
+      "line": 13,
+      "symbol": "VideoSettings",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/MOOVConfig.swift",
+      "line": 34,
+      "symbol": "VideoSettings.init(params:dimensions:timescale:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/MOOVConfig.swift",
+      "line": 49,
+      "symbol": "AudioSettings",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/MOOVConfig.swift",
+      "line": 79,
+      "symbol": "AudioSettings.init(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/Playlists/Playlist.swift",
+      "line": 12,
+      "symbol": "Playlist.init(type:fileName:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/Playlists/Playlist.swift",
+      "line": 27,
+      "symbol": "PlaylistType.hls_vod",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/Playlists/Playlist.swift",
+      "line": 30,
+      "symbol": "PlaylistType.hls_live",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/Playlists/Playlist.swift",
+      "line": 33,
+      "symbol": "PlaylistType.hls_event",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/melgray/workspace/morsel/Sources/morsel/Sample.swift",
+      "line": 84,
+      "symbol": "==(_:_:)",
+      "symbol_kind": "source.lang.swift.decl.function.free",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/melgray/workspace/morsel"
+}
