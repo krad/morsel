@@ -9,21 +9,21 @@
     },
     {
       "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
-      "line": 7,
+      "line": 8,
       "symbol": "FragmentedMP4WriterError.fileNotDirectory",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
-      "line": 8,
+      "line": 11,
       "symbol": "FragmentedMP4WriterError.directoryDoesNotExist",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/melgray/workspace/morsel/Sources/morsel/FragmentedMP4Writer.swift",
-      "line": 9,
+      "line": 14,
       "symbol": "FragmentedMP4WriterError.couldNotAddPlaylist",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
